@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">Final Project</string>
     <string name="text_area_hint">Enter Your Message Here</string>
+    <string name="messages_count_sample">NNN</string>
+    <string name="history_time_sample">dd/mm/yyyy - hh:mm</string>
+    <string name="phone_name_sample">Phone Name</string>
+    <string name="message_text_sample">Message text</string>
+    <string name="message_time_sample">hh:mm:ss</string>
 </resources>

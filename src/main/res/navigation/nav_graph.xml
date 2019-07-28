@@ -6,7 +6,7 @@
     app:startDestination="@id/historyFragment">
     <fragment
         android:id="@+id/historyFragment"
-        android:name="com.example.finalproject.ui.HistoryFragment"
+        android:name="com.example.finalproject.ui.history.HistoryFragment"
         android:label="history_fragment"
         tools:layout="@layout/fragment_history" >
         <action
@@ -18,7 +18,7 @@
     </fragment>
     <fragment
         android:id="@+id/chatFragment"
-        android:name="com.example.finalproject.ui.ChatFragment"
+        android:name="com.example.finalproject.ui.chat.ChatFragment"
         android:label="ChatFragment" />
     <fragment
         android:id="@+id/searchPeerFragment"
