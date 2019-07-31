@@ -1,15 +1,26 @@
 package com.example.finalproject.model.dtos;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class HistoryEntryDTO {
+public class HistoryEntryDTO implements Serializable {
+
+    private long id;
 
     private String phoneName;
 
     private Date startTime;
 
     private List<MessageDTO> messages;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getPhoneName() {
         return phoneName;

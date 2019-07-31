@@ -10,12 +10,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.finalproject.MainContract;
 import com.example.finalproject.R;
+import com.example.finalproject.model.dtos.HistoryEntryDTO;
 import com.example.finalproject.model.dtos.MessageDTO;
 
-import java.util.ArrayList;
+public class ChatFragment extends Fragment implements MainContract.ChatView {
 
-public class ChatFragment extends Fragment {
+    private ChatRecycleViewAdapter viewAdapter;
 
     @Nullable
     @Override
@@ -23,8 +25,22 @@ public class ChatFragment extends Fragment {
         View chatView = inflater.inflate(R.layout.fragment_chat, container, false);
         RecyclerView recyclerView = chatView.findViewById(R.id.chatRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        //todo zaza get messages list from action
-        recyclerView.setAdapter(new ChatRecycleViewAdapter(new ArrayList<MessageDTO>()));
+
+        Bundle args = getArguments();
+        if (args != null) {
+            if (args.containsKey(MainContract.HISTORY_ENTRY_KEY)) {
+                HistoryEntryDTO historyEntry = (HistoryEntryDTO) args.getSerializable(MainContract.HISTORY_ENTRY_KEY);
+                if (historyEntry != null) {
+                    viewAdapter = new ChatRecycleViewAdapter(historyEntry.getMessages());
+                    recyclerView.setAdapter(viewAdapter);
+                }
+            }
+        }
         return chatView;
+    }
+
+    @Override
+    public void showMessage(MessageDTO message) {
+        viewAdapter.addMessage(message);
     }
 }

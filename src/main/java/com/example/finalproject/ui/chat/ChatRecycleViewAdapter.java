@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.finalproject.R;
 import com.example.finalproject.model.dtos.HistoryEntryDTO;
@@ -29,6 +30,13 @@ public class ChatRecycleViewAdapter extends RecyclerView.Adapter<MessageHolder>{
     @Override
     public MessageHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         final View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.cell_chat_message, viewGroup, false);
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TextView messageTimeLabel = view.findViewById(R.id.messageTime);
+                messageTimeLabel.setVisibility(messageTimeLabel.isShown() ? View.INVISIBLE : View.VISIBLE);
+            }
+        });
         return new MessageHolder(view);
     }
 
@@ -37,6 +45,8 @@ public class ChatRecycleViewAdapter extends RecyclerView.Adapter<MessageHolder>{
         MessageDTO entry = messages.get(index);
         itemViewHolder.getMessageContent().setText(entry.getContent());
         itemViewHolder.getSentTime().setText(DATE_FORMAT.format(entry.getTime()));
+        //todo zaza redraw
+        itemViewHolder.setFromMe(entry.isFromMe());
     }
 
     @Override
@@ -44,4 +54,8 @@ public class ChatRecycleViewAdapter extends RecyclerView.Adapter<MessageHolder>{
         return messages.size();
     }
 
+    public void addMessage(MessageDTO messageDTO) {
+        messages.add(messageDTO);
+        notifyDataSetChanged();
+    }
 }

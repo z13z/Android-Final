@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.finalproject.MainContract;
 import com.example.finalproject.R;
 import com.example.finalproject.model.Database;
 import com.example.finalproject.model.helpers.HistoryHelper;
@@ -22,7 +23,7 @@ public class HistoryFragment extends Fragment {
         View historyView = inflater.inflate(R.layout.fragment_history, container, false);
         RecyclerView recyclerView = historyView.findViewById(R.id.historyRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(new HistoryRecycleViewAdapter(HistoryHelper.getDtos(Database.getInstance().dataDao().getHistoryEntries())));
+        recyclerView.setAdapter(new HistoryRecycleViewAdapter(HistoryHelper.getDtos(Database.getInstance().dataDao().getHistoryEntries()), (MainContract.Presenter) getActivity()));
         return historyView;
     }
 

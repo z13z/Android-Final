@@ -19,7 +19,11 @@
     <fragment
         android:id="@+id/chatFragment"
         android:name="com.example.finalproject.ui.chat.ChatFragment"
-        android:label="ChatFragment" />
+        android:label="ChatFragment" >
+        <argument
+            android:name="historyEntryKey"
+            app:argType="com.example.finalproject.model.dtos.HistoryEntryDTO" />
+    </fragment>
     <fragment
         android:id="@+id/searchPeerFragment"
         android:name="com.example.finalproject.ui.SearchPeerFragment"

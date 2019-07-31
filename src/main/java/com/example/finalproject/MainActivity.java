@@ -16,16 +16,17 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.finalproject.connector.Controller;
+import com.example.finalproject.model.dtos.HistoryEntryDTO;
 import com.example.finalproject.model.dtos.MessageDTO;
 
-import java.util.Map;
-
-public class MainActivity extends AppCompatActivity implements MainContract.Viewer{
+public class MainActivity extends AppCompatActivity implements MainContract.Presenter {
 
     @SuppressLint("StaticFieldLeak")
     private static Context context;
 
     private MainContract.Controller controller;
+
+    private MainContract.ChatView chatView;
 
     public static Context getContext() {
         return context;
@@ -58,9 +59,28 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 
     @Override
-    public void addMessage(MessageDTO messageDTO) {
-//        todo zaza implement
+    public void showMessage(MessageDTO messageDTO) {
+        if (chatView != null) {
+            chatView.showMessage(messageDTO);
+        } else {
+            controller.connectionFinished();
+        }
     }
 
+    //todo zaza call
+    @Override
+    public void writeMessage(String message) {
+        controller.writeMessage(message);
+    }
 
+    @Override
+    public void showChatHistory(HistoryEntryDTO historyEntry){
+        Bundle args = new Bundle();
+        args.putSerializable(MainContract.HISTORY_ENTRY_KEY, historyEntry);
+        Navigation.findNavController(this, R.id.navigation_controller).navigate(R.id.action_historyFragment_to_chatFragment2, args);
+    }
+
+    public void setChatView(MainContract.ChatView chatView) {
+        this.chatView = chatView;
+    }
 }

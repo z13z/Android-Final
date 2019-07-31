@@ -3,10 +3,13 @@ package com.example.finalproject;
 import android.content.BroadcastReceiver;
 import android.content.IntentFilter;
 
+import com.example.finalproject.model.dtos.HistoryEntryDTO;
 import com.example.finalproject.model.dtos.MessageDTO;
 import com.example.finalproject.model.entities.Message;
 
 public interface MainContract {
+
+    String HISTORY_ENTRY_KEY = "historyEntryKey";
 
     //        todo zaza call
     interface Controller {
@@ -28,11 +31,21 @@ public interface MainContract {
         void setCurrentPhoneName(String phoneName);
     }
 
-    interface Viewer {
+    interface Presenter {
 
         void registerBroadcastReceiver(BroadcastReceiver receiver, IntentFilter intentFilter);
 
-        void addMessage(MessageDTO dto);
+        void showMessage(MessageDTO dto);
+
+        void showChatHistory(HistoryEntryDTO historyEntry);
+
+        void writeMessage(String message);
+
+    }
+
+    interface ChatView{
+
+        void showMessage(MessageDTO message);
     }
 
     interface ChatModel{

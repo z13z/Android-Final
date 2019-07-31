@@ -18,6 +18,7 @@ public class HistoryHelper {
 
     private static HistoryEntryDTO getDto(HistoryWithMessages dbEntry) {
         HistoryEntryDTO dto = new HistoryEntryDTO();
+        dto.setId(dbEntry.getHistory().getId());
         dto.setPhoneName(dbEntry.getHistory().getPhoneName());
         dto.setStartTime(dbEntry.getHistory().getStartTime());
         dto.setMessages(MessageHelper.getDtos(dbEntry.getMessages()));

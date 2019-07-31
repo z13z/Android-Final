@@ -6,4 +6,5 @@
     <string name="phone_name_sample">Phone Name</string>
     <string name="message_text_sample">Message text</string>
     <string name="message_time_sample">hh:mm:ss</string>
+    <string name="loading_connection">Loading connection</string>
 </resources>

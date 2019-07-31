@@ -11,14 +11,14 @@ public class Controller implements MainContract.Controller {
 
     private P2PBroadcastReceiver broadcastReceiver;
 
-    private MainContract.Viewer viewer;
+    private MainContract.Presenter presenter;
 
     private Connector connector;
 
     private MainContract.ChatModel model;
 
-    public Controller(WifiP2pManager manager, WifiP2pManager.Channel channel, MainContract.Viewer viewer){
-        this.viewer = viewer;
+    public Controller(WifiP2pManager manager, WifiP2pManager.Channel channel, MainContract.Presenter presenter){
+        this.presenter = presenter;
         initBroadcastReceiver(manager,channel);
     }
 
@@ -29,7 +29,7 @@ public class Controller implements MainContract.Controller {
         intentFilter.addAction(WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION);
         intentFilter.addAction(WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION);
         intentFilter.addAction(WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION);
-        viewer.registerBroadcastReceiver(broadcastReceiver,intentFilter);
+        presenter.registerBroadcastReceiver(broadcastReceiver,intentFilter);
     }
 
     //todo zaza call
@@ -69,14 +69,14 @@ public class Controller implements MainContract.Controller {
 
     @Override
     public void readMessage(String message) {
-        viewer.addMessage(MessageHelper.getDto(model.saveMessage(message, true)));
+        presenter.showMessage(MessageHelper.getDto(model.saveMessage(message, true)));
     }
 
     @Override
     public void writeMessage(String message){
         if (connector != null) {
             connector.writeMessage(message);
-            viewer.addMessage(MessageHelper.getDto(model.saveMessage(message, true)));
+            presenter.showMessage(MessageHelper.getDto(model.saveMessage(message, true)));
         }
     }
 

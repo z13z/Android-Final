@@ -13,10 +13,12 @@ public class MessageHolder extends RecyclerView.ViewHolder {
 
     private TextView sentTime;
 
+    private boolean fromMe;
+
     public MessageHolder(@NonNull View itemView) {
         super(itemView);
-        messageContent=itemView.findViewById(R.id.phoneNameLabel);
-        sentTime= itemView.findViewById(R.id.historyTimeLabel);
+        messageContent = itemView.findViewById(R.id.phoneNameLabel);
+        sentTime = itemView.findViewById(R.id.historyTimeLabel);
     }
 
     public TextView getMessageContent() {
@@ -25,5 +27,13 @@ public class MessageHolder extends RecyclerView.ViewHolder {
 
     public TextView getSentTime() {
         return sentTime;
+    }
+
+    public boolean isFromMe() {
+        return fromMe;
+    }
+
+    public void setFromMe(boolean fromMe) {
+        this.fromMe = fromMe;
     }
 }
