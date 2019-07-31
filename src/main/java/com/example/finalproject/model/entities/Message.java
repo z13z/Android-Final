@@ -11,10 +11,10 @@ import java.util.Date;
 public class Message {
 
     @PrimaryKey(autoGenerate = true)
-    private int id;
+    private long id;
 
     @ColumnInfo(name = "history_id")
-    private int historyId;
+    private long historyId;
 
     private String content;
 
@@ -46,19 +46,19 @@ public class Message {
         this.fromMe = fromMe;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public int getHistoryId() {
+    public long getHistoryId() {
         return historyId;
     }
 
-    public void setHistoryId(int historyId) {
+    public void setHistoryId(long historyId) {
         this.historyId = historyId;
     }
 }

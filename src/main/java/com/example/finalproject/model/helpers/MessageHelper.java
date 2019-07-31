@@ -18,7 +18,7 @@ public class MessageHelper {
         return resultMessageDtos;
     }
 
-    private static MessageDTO getDto(Message dbMessage){
+    public static MessageDTO getDto(Message dbMessage){
         if (dbMessage == null) {
             return null;
         }

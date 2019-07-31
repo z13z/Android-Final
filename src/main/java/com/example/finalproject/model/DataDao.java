@@ -21,8 +21,8 @@ public interface DataDao {
     List<Message> getMessageCounts();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertMessage(Message message);
+    long insertMessage(Message message);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertHistory(HistoryEntry history);
+    long insertHistory(HistoryEntry history);
 }
