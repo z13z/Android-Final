@@ -3,21 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/historyFragment">
+    app:startDestination="@id/nav_history">
     <fragment
-        android:id="@+id/historyFragment"
+        android:id="@+id/nav_history"
         android:name="com.example.finalproject.ui.history.HistoryFragment"
         android:label="history_fragment"
         tools:layout="@layout/fragment_history" >
         <action
             android:id="@+id/action_historyFragment_to_searchPeerFragment"
-            app:destination="@id/searchPeerFragment" />
+            app:destination="@id/nav_peer_search" />
         <action
             android:id="@+id/action_historyFragment_to_chatFragment2"
-            app:destination="@id/chatFragment" />
+            app:destination="@id/nav_chat" />
     </fragment>
     <fragment
-        android:id="@+id/chatFragment"
+        android:id="@+id/nav_chat"
         android:name="com.example.finalproject.ui.chat.ChatFragment"
         android:label="ChatFragment" >
         <argument
@@ -25,12 +25,12 @@
             app:argType="com.example.finalproject.model.dtos.HistoryEntryDTO" />
     </fragment>
     <fragment
-        android:id="@+id/searchPeerFragment"
+        android:id="@+id/nav_peer_search"
         android:name="com.example.finalproject.ui.SearchPeerFragment"
         android:label="fragment_search_peer"
         tools:layout="@layout/fragment_search_peer" >
         <action
             android:id="@+id/action_searchPeerFragment_to_chatFragment"
-            app:destination="@id/chatFragment" />
+            app:destination="@id/nav_chat" />
     </fragment>
 </navigation>

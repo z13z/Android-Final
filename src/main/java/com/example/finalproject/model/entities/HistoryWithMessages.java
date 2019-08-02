@@ -1,7 +1,7 @@
 package com.example.finalproject.model.entities;
 
-import androidx.room.Embedded;
-import androidx.room.Relation;
+import android.arch.persistence.room.Embedded;
+import android.arch.persistence.room.Relation;
 
 import java.util.List;
 

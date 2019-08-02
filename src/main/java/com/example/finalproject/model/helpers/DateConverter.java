@@ -1,6 +1,6 @@
 package com.example.finalproject.model.helpers;
 
-import androidx.room.TypeConverter;
+import android.arch.persistence.room.TypeConverter;
 
 import java.util.Date;
 
