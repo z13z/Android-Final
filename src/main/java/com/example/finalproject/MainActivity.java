@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.Pres
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        context = getContext();
+        context = this;
         setContentView(R.layout.activity_main);
         NavigationView navView = findViewById(R.id.navigation_view);
         NavController navController = Navigation.findNavController(this, R.id.navigation_controller);

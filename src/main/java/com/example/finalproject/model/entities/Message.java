@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey;
 
 import java.util.Date;
 
-@Entity(foreignKeys = @ForeignKey(entity = HistoryEntry.class, parentColumns = "id", childColumns = "message_id", onUpdate = ForeignKey.CASCADE, onDelete = ForeignKey.CASCADE))
+@Entity(foreignKeys = @ForeignKey(entity = HistoryEntry.class, parentColumns = "id", childColumns = "id", onUpdate = ForeignKey.CASCADE, onDelete = ForeignKey.CASCADE))
 public class Message {
 
     @PrimaryKey(autoGenerate = true)
