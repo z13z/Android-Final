@@ -5,13 +5,15 @@ import android.content.IntentFilter;
 
 import com.example.finalproject.model.dtos.HistoryEntryDTO;
 import com.example.finalproject.model.dtos.MessageDTO;
+import com.example.finalproject.model.entities.HistoryWithMessages;
 import com.example.finalproject.model.entities.Message;
 
 public interface MainContract {
 
     String HISTORY_ENTRY_KEY = "historyEntryKey";
 
-    //        todo zaza call
+    String HISTORY_MODE_KEY = "historyMode";
+
     interface Controller {
 
         void discoverPeers();
@@ -23,6 +25,8 @@ public interface MainContract {
         void connectionEstablished();
 
         void connectionFinished();
+
+        void closeConnection();
 
         void readMessage(String message);
 
@@ -37,10 +41,11 @@ public interface MainContract {
 
         void showMessage(MessageDTO dto);
 
-        void showChatHistory(HistoryEntryDTO historyEntry);
+        void showChat(HistoryEntryDTO historyEntry, boolean historyMode);
 
         void writeMessage(String message);
 
+        void chatFinished();
     }
 
     interface ChatView{
@@ -53,5 +58,7 @@ public interface MainContract {
         void chatStarted();
 
         Message saveMessage(String message, boolean fromMe);
+
+        HistoryWithMessages getCurrentHistoryEntry();
     }
 }

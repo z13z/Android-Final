@@ -9,15 +9,21 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.finalproject.MainContract;
 import com.example.finalproject.R;
 import com.example.finalproject.model.dtos.HistoryEntryDTO;
 import com.example.finalproject.model.dtos.MessageDTO;
 
-public class ChatFragment extends Fragment implements MainContract.ChatView {
+public class ChatFragment extends Fragment implements MainContract.ChatView, View.OnClickListener {
 
     private ChatRecycleViewAdapter viewAdapter;
+
+    private MainContract.Presenter presenter;
+
+    private TextView messageField;
 
     @Nullable
     @Override
@@ -36,11 +42,27 @@ public class ChatFragment extends Fragment implements MainContract.ChatView {
                 }
             }
         }
+        Button button = chatView.findViewById(R.id.sendMessageButon);
+        button.setOnClickListener(this);
+        button.setVisibility(args != null && args.getBoolean(MainContract.HISTORY_MODE_KEY) ? View.INVISIBLE : View.VISIBLE);
+
+        messageField = chatView.findViewById(R.id.messageField);
+
+        presenter = (MainContract.Presenter) getActivity();
         return chatView;
     }
 
     @Override
     public void showMessage(MessageDTO message) {
         viewAdapter.addMessage(message);
+    }
+
+    @Override
+    public void onClick(View v) {
+        CharSequence charSequence = messageField.getText();
+        if (charSequence != null && charSequence.length() > 0) {
+            presenter.writeMessage(String.valueOf(charSequence));
+            messageField.setText("");
+        }
     }
 }

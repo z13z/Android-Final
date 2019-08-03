@@ -23,6 +23,14 @@
         <argument
             android:name="historyEntryKey"
             app:argType="com.example.finalproject.model.dtos.HistoryEntryDTO" />
+        <action
+            android:id="@+id/action_nav_chat_to_nav_history"
+            app:popUpTo="@id/nav_history"
+            app:destination="@id/nav_history" />
+        <argument
+            android:name="historyMode"
+            app:argType="boolean"
+            android:defaultValue="false" />
     </fragment>
     <fragment
         android:id="@+id/nav_peer_search"

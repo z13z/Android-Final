@@ -33,7 +33,7 @@ public class HistoryEntryHolder extends RecyclerView.ViewHolder {
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.showChatHistory(historyEntry);
+                presenter.showChat(historyEntry, true);
             }
         });
     }

@@ -120,6 +120,7 @@ public class Connector extends Thread {
                 Log.e("connection_problem", "can't close server socket", e);
             }
         }
+        controller.connectionFinished();
     }
 
     private void readLoop() throws IOException {

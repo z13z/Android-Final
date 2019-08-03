@@ -19,6 +19,10 @@ public interface DataDao {
     @Query("SELECT * FROM HistoryEntry")
     List<HistoryWithMessages> getHistoryEntries();
 
+    @Transaction
+    @Query("SELECT * FROM HistoryEntry e WHERE e.phoneName=:phoneName")
+    HistoryWithMessages getHistoryEntry(String phoneName);
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     long insertMessage(Message message);
 

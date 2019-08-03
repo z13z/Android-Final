@@ -5,6 +5,7 @@ import android.net.wifi.p2p.WifiP2pManager;
 
 import com.example.finalproject.MainContract;
 import com.example.finalproject.model.ModelController;
+import com.example.finalproject.model.helpers.HistoryHelper;
 import com.example.finalproject.model.helpers.MessageHelper;
 
 public class Controller implements MainContract.Controller {
@@ -32,7 +33,6 @@ public class Controller implements MainContract.Controller {
         presenter.registerBroadcastReceiver(broadcastReceiver,intentFilter);
     }
 
-    //todo zaza call
     public void discoverPeers(){
         broadcastReceiver.discoverPeers();
     }
@@ -53,18 +53,19 @@ public class Controller implements MainContract.Controller {
     @Override
     public void connectionEstablished() {
         model.chatStarted();
-//        todo zaza implement
+        presenter.showChat(HistoryHelper.getDto(model.getCurrentHistoryEntry()), false);
     }
 
     @Override
     public void connectionFinished() {
-//todo zaza implement
+        model = null;
+        connector = null;
+        presenter.chatFinished();
     }
 
-    //todo zaza call from view too
+    @Override
     public void closeConnection(){
         connector.closeConnection();
-        model = null;
     }
 
     @Override

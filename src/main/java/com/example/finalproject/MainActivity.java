@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.IntentFilter;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -13,6 +14,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.navigation.Navigation;
 
@@ -28,6 +30,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.Pres
     private MainContract.Controller controller;
 
     private MainContract.ChatView chatView;
+
+    private boolean searchPeers = false;
 
     public static Context getContext() {
         return context;
@@ -67,20 +71,28 @@ public class MainActivity extends AppCompatActivity implements MainContract.Pres
         if (chatView != null) {
             chatView.showMessage(messageDTO);
         } else {
-            controller.connectionFinished();
+            controller.closeConnection();
         }
     }
 
-    //todo zaza call
     @Override
     public void writeMessage(String message) {
         controller.writeMessage(message);
     }
 
     @Override
-    public void showChatHistory(HistoryEntryDTO historyEntry){
+    public void chatFinished() {
+        navOnHistoryFragment();
+        chatView = null;
+        Toast.makeText(this, R.string.connection_closed, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void showChat(HistoryEntryDTO historyEntry, boolean historyMode){
         Bundle args = new Bundle();
         args.putSerializable(MainContract.HISTORY_ENTRY_KEY, historyEntry);
+        args.putBoolean(MainContract.HISTORY_MODE_KEY, historyMode);
+        searchPeers = false;
         Navigation.findNavController(this, R.id.navigation_controller).navigate(R.id.action_historyFragment_to_chatFragment2, args);
     }
 
@@ -88,21 +100,26 @@ public class MainActivity extends AppCompatActivity implements MainContract.Pres
         this.chatView = chatView;
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
         if (id == R.id.nav_history_item) {
-
+            navOnHistoryFragment();
         } else if (id == R.id.nav_peer_search_item) {
-
+            Navigation.findNavController(this, R.id.navigation_controller).navigate(R.id.nav_peer_search, new Bundle());
+            searchPeers = true;
+            controller.discoverPeers();
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void navOnHistoryFragment(){
+        Navigation.findNavController(this, R.id.navigation_controller).popBackStack(R.id.nav_history, false);
     }
 
     @Override
@@ -111,7 +128,14 @@ public class MainActivity extends AppCompatActivity implements MainContract.Pres
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            if (chatView != null) {
+                controller.closeConnection();
+            } else if (searchPeers) {
+//                controller.cancelSearchPeers()
+                controller.closeConnection();
+            } else {
+                super.onBackPressed();
+            }
         }
     }
 }
