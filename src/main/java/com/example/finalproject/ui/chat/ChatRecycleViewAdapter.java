@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.finalproject.R;
-import com.example.finalproject.model.dtos.HistoryEntryDTO;
 import com.example.finalproject.model.dtos.MessageDTO;
 
 import java.text.DateFormat;
@@ -16,7 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 
-public class ChatRecycleViewAdapter extends RecyclerView.Adapter<MessageHolder>{
+public class ChatRecycleViewAdapter extends RecyclerView.Adapter<MessageHolder> {
 
     private static DateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy - hh:mm", Locale.getDefault());
 
@@ -45,7 +44,6 @@ public class ChatRecycleViewAdapter extends RecyclerView.Adapter<MessageHolder>{
         MessageDTO entry = messages.get(index);
         itemViewHolder.getMessageContent().setText(entry.getContent());
         itemViewHolder.getSentTime().setText(DATE_FORMAT.format(entry.getTime()));
-        //todo zaza redraw
         itemViewHolder.setFromMe(entry.isFromMe());
     }
 
