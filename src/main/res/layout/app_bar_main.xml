@@ -24,15 +24,17 @@
 
     </android.support.design.widget.AppBarLayout>
 
-        <fragment
-            android:id="@+id/navigation_controller"
-            android:name="androidx.navigation.fragment.NavHostFragment"
-            android:layout_width="match_parent"
-            android:layout_height="673dp"
-            app:defaultNavHost="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:navGraph="@navigation/nav_graph" />
+    <fragment
+        android:id="@+id/navigation_controller"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="673dp"
+        android:layout_marginTop="8dp"
+        app:defaultNavHost="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
+        app:navGraph="@navigation/nav_graph" />
 
 </android.support.constraint.ConstraintLayout>
