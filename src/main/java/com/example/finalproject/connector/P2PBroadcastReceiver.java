@@ -42,9 +42,9 @@ public class P2PBroadcastReceiver extends BroadcastReceiver {
             @Override
             public void onFailure(int reason) {
                 Log.w("zaza test log", "discover peers on failure " + reason);
-                discoverPeers();
+//                discoverPeers();
 //                todo zaza implement
-//                System.exit(-reason);
+                System.exit(-43);
             }
         });
     }
