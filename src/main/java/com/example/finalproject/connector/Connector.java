@@ -60,7 +60,7 @@ public class Connector extends Thread {
             }
         } catch (IOException e) {
 //            todo zaza implement
-            System.exit(0);
+            System.exit(-42);
         }
     }
 

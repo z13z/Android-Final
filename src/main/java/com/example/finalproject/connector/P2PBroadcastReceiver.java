@@ -9,6 +9,7 @@ import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pDeviceList;
 import android.net.wifi.p2p.WifiP2pInfo;
 import android.net.wifi.p2p.WifiP2pManager;
+import android.util.Log;
 
 import com.example.finalproject.MainContract;
 
@@ -40,8 +41,10 @@ public class P2PBroadcastReceiver extends BroadcastReceiver {
 
             @Override
             public void onFailure(int reason) {
+                Log.w("zaza test log", "discover peers on failure " + reason);
+                discoverPeers();
 //                todo zaza implement
-                System.exit(0);
+//                System.exit(-reason);
             }
         });
     }
@@ -59,7 +62,7 @@ public class P2PBroadcastReceiver extends BroadcastReceiver {
             @Override
             public void onFailure(int reason) {
 //                todo zaza implement
-                System.exit(0);
+                System.exit(-reason);
             }
         });
     }
@@ -74,6 +77,7 @@ public class P2PBroadcastReceiver extends BroadcastReceiver {
             case WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION:
                 break;
             case WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION:
+                Log.i("zaza_test_log","case WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION:");
                 peersChangedAction();
                 break;
             case WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION:
@@ -96,7 +100,7 @@ public class P2PBroadcastReceiver extends BroadcastReceiver {
                         connector.createClientSocket(info.groupOwnerAddress.getHostAddress());
                     } else {
 //                        todo zaza implement
-                        System.exit(0);
+                        System.exit(-13);
                     }
                 }
             });
