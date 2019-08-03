@@ -22,6 +22,8 @@ import com.example.finalproject.connector.Controller;
 import com.example.finalproject.model.dtos.HistoryEntryDTO;
 import com.example.finalproject.model.dtos.MessageDTO;
 
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity implements MainContract.Presenter, NavigationView.OnNavigationItemSelectedListener {
 
     @SuppressLint("StaticFieldLeak")
@@ -96,6 +98,17 @@ public class MainActivity extends AppCompatActivity implements MainContract.Pres
         Navigation.findNavController(this, R.id.navigation_controller).navigate(R.id.action_historyFragment_to_chatFragment2, args);
     }
 
+    @Override
+    public void deleteHistoryEntities(List<Long> deleteHistoryEntities) {
+        controller.deleteHistoryEntities(deleteHistoryEntities);
+    }
+
+    @Override
+    public List<HistoryEntryDTO> getHistoryEntities() {
+        return controller.getHistoryEntities();
+    }
+
+    @Override
     public void setChatView(MainContract.ChatView chatView) {
         this.chatView = chatView;
     }
@@ -131,8 +144,9 @@ public class MainActivity extends AppCompatActivity implements MainContract.Pres
             if (chatView != null) {
                 controller.closeConnection();
             } else if (searchPeers) {
-//                controller.cancelSearchPeers()
-                controller.closeConnection();
+                controller.stopSearchPeers();
+                searchPeers = false;
+                navOnHistoryFragment();
             } else {
                 super.onBackPressed();
             }

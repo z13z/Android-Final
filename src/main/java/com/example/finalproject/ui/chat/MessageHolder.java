@@ -17,8 +17,8 @@ public class MessageHolder extends RecyclerView.ViewHolder {
 
     public MessageHolder(@NonNull View itemView) {
         super(itemView);
-        messageContent = itemView.findViewById(R.id.phoneNameLabel);
-        sentTime = itemView.findViewById(R.id.historyTimeLabel);
+        messageContent = itemView.findViewById(R.id.messageText);
+        sentTime = itemView.findViewById(R.id.messageTime);
     }
 
     public TextView getMessageContent() {

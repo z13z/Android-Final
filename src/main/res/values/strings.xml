@@ -24,4 +24,6 @@
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
     <string name="connection_closed">connection closed</string>
+    <string name="clear_history">ისტორიის გასუფთავება</string>
+    <string name="history_not_found">ისტროია არ მოიძებნა</string>
 </resources>

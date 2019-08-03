@@ -8,6 +8,8 @@ import com.example.finalproject.model.dtos.MessageDTO;
 import com.example.finalproject.model.entities.HistoryWithMessages;
 import com.example.finalproject.model.entities.Message;
 
+import java.util.List;
+
 public interface MainContract {
 
     String HISTORY_ENTRY_KEY = "historyEntryKey";
@@ -28,11 +30,17 @@ public interface MainContract {
 
         void closeConnection();
 
+        void stopSearchPeers();
+
         void readMessage(String message);
 
         void writeMessage(String message);
 
         void setCurrentPhoneName(String phoneName);
+
+        void deleteHistoryEntities(List<Long> deleteHistoryEntities);
+
+        List<HistoryEntryDTO> getHistoryEntities();
     }
 
     interface Presenter {
@@ -46,6 +54,13 @@ public interface MainContract {
         void writeMessage(String message);
 
         void chatFinished();
+
+        void deleteHistoryEntities(List<Long> deleteHistoryEntities);
+
+        List<HistoryEntryDTO> getHistoryEntities();
+
+        //todo zaza set view
+        void setChatView(ChatView chatView);
     }
 
     interface ChatView{

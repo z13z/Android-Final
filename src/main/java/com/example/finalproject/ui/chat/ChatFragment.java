@@ -44,11 +44,18 @@ public class ChatFragment extends Fragment implements MainContract.ChatView, Vie
         }
         Button button = chatView.findViewById(R.id.sendMessageButon);
         button.setOnClickListener(this);
-        button.setVisibility(args != null && args.getBoolean(MainContract.HISTORY_MODE_KEY) ? View.INVISIBLE : View.VISIBLE);
+
+        presenter = (MainContract.Presenter) getActivity();
+
+        if (args == null || args.getBoolean(MainContract.HISTORY_MODE_KEY)) {
+            button.setVisibility(View.INVISIBLE);
+            if (presenter != null) {
+                presenter.setChatView(this);
+            }
+        }
 
         messageField = chatView.findViewById(R.id.messageField);
 
-        presenter = (MainContract.Presenter) getActivity();
         return chatView;
     }
 

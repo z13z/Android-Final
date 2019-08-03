@@ -4,9 +4,13 @@ import android.content.IntentFilter;
 import android.net.wifi.p2p.WifiP2pManager;
 
 import com.example.finalproject.MainContract;
+import com.example.finalproject.model.Database;
 import com.example.finalproject.model.ModelController;
+import com.example.finalproject.model.dtos.HistoryEntryDTO;
 import com.example.finalproject.model.helpers.HistoryHelper;
 import com.example.finalproject.model.helpers.MessageHelper;
+
+import java.util.List;
 
 public class Controller implements MainContract.Controller {
 
@@ -69,6 +73,11 @@ public class Controller implements MainContract.Controller {
     }
 
     @Override
+    public void stopSearchPeers(){
+//        todo zaza implement
+    }
+
+    @Override
     public void readMessage(String message) {
         presenter.showMessage(MessageHelper.getDto(model.saveMessage(message, true)));
     }
@@ -84,5 +93,16 @@ public class Controller implements MainContract.Controller {
     @Override
     public void setCurrentPhoneName(String phoneName) {
         model = new ModelController(phoneName);
+    }
+
+    @Override
+    public void deleteHistoryEntities(List<Long> deleteHistoryEntities) {
+        Database.getInstance().dataDao().deleteHistoryMessages(deleteHistoryEntities);
+        Database.getInstance().dataDao().deleteHistoryEntries(deleteHistoryEntities);
+    }
+
+    @Override
+    public List<HistoryEntryDTO> getHistoryEntities() {
+        return HistoryHelper.getDtos(Database.getInstance().dataDao().getHistoryEntries());
     }
 }

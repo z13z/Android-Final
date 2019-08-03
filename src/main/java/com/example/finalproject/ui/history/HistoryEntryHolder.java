@@ -42,6 +42,6 @@ public class HistoryEntryHolder extends RecyclerView.ViewHolder {
         this.historyEntry = historyEntry;
         phoneName.setText(historyEntry.getPhoneName());
         historyPeriod.setText(DATE_FORMAT.format(historyEntry.getStartTime()));
-        messagesCount.setText(historyEntry.getMessages().size());
+        messagesCount.setText(String.valueOf(historyEntry.getMessages().size()));
     }
 }

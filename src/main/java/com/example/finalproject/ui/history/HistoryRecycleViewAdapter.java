@@ -10,6 +10,7 @@ import com.example.finalproject.MainContract;
 import com.example.finalproject.R;
 import com.example.finalproject.model.dtos.HistoryEntryDTO;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HistoryRecycleViewAdapter extends RecyclerView.Adapter<HistoryEntryHolder>{
@@ -33,6 +34,17 @@ public class HistoryRecycleViewAdapter extends RecyclerView.Adapter<HistoryEntry
     @Override
     public void onBindViewHolder(@NonNull HistoryEntryHolder itemViewHolder, int index) {
         itemViewHolder.setFields(historyEntries.get(index));
+    }
+
+    List<Long> deleteHistoryEntities() {
+        List<Long> deletedIds = new ArrayList<>();
+        for (HistoryEntryDTO historyEntryDTO : historyEntries) {
+            deletedIds.add(historyEntryDTO.getId());
+        }
+        //todo zaza show label from fragment
+        historyEntries.clear();
+        notifyDataSetChanged();
+        return deletedIds;
     }
 
     @Override

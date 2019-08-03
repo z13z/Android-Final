@@ -1,5 +1,6 @@
 package com.example.finalproject.ui;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,12 +11,21 @@ import android.view.ViewGroup;
 
 import com.example.finalproject.R;
 
-public class SearchPeerFragment extends Fragment {
+public class SearchPeerFragment extends Fragment implements View.OnClickListener {
 
-    //todo zaza on back and cancel
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_search_peer, container, false);
+        View searchPeersView = inflater.inflate(R.layout.fragment_search_peer, container, false);
+        searchPeersView.findViewById(R.id.buttonCancelConnection).setOnClickListener(this);
+        return searchPeersView;
+    }
+
+    @Override
+    public void onClick(View v) {
+        Activity activity = getActivity();
+        if (activity != null) {
+            activity.onBackPressed();
+        }
     }
 }
