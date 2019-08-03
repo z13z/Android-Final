@@ -1,8 +1,9 @@
 package com.example.finalproject.model.dtos;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class MessageDTO {
+public class MessageDTO implements Serializable {
 
     private String content;
 
