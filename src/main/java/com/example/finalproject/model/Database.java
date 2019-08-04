@@ -52,6 +52,7 @@ public abstract class Database extends RoomDatabase {
                         })
 
                         .build();
+                insertTestData();
             }
         }
         return INSTANCE;
@@ -61,10 +62,12 @@ public abstract class Database extends RoomDatabase {
     private static void insertTestData() {
         for (HistoryEntry entry : getHistoryEntries()) {
             long insertedId = getInstance().dataDao().insertHistory(entry);
-            List<Message> messages = getTestMessages();
-            for (Message message : messages) {
-                message.setHistoryId(insertedId);
-                getInstance().dataDao().insertMessage(message);
+            for (int i = 0; i < 5; i++) {
+                List<Message> messages = getTestMessages();
+                for (Message message : messages) {
+                    message.setHistoryId(insertedId);
+                    getInstance().dataDao().insertMessage(message);
+                }
             }
         }
     }
