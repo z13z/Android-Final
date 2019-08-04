@@ -41,6 +41,8 @@ public interface MainContract {
         void deleteHistoryEntities(List<Long> deleteHistoryEntities);
 
         List<HistoryEntryDTO> getHistoryEntities();
+
+        void showAlertAndExit(String message);
     }
 
     interface Presenter {
@@ -59,7 +61,8 @@ public interface MainContract {
 
         List<HistoryEntryDTO> getHistoryEntities();
 
-        //todo zaza set view
+        void showAlert(String message);
+
         void setChatView(ChatView chatView);
     }
 

@@ -14,6 +14,8 @@ import java.util.List;
 
 public class Controller implements MainContract.Controller {
 
+    private static final long FATAL_ALERT_DURATION = 5000;
+
     private P2PBroadcastReceiver broadcastReceiver;
 
     private MainContract.Presenter presenter;
@@ -104,5 +106,20 @@ public class Controller implements MainContract.Controller {
     @Override
     public List<HistoryEntryDTO> getHistoryEntities() {
         return HistoryHelper.getDtos(Database.getInstance().dataDao().getHistoryEntries());
+    }
+
+    @Override
+    public void showAlertAndExit(String message) {
+        presenter.showAlert(message);
+            new Thread() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(FATAL_ALERT_DURATION);
+                    } catch (InterruptedException ignore) {
+                    }
+                    System.exit(-43);
+                }
+            };
     }
 }

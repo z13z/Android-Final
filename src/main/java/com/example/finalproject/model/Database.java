@@ -51,6 +51,7 @@ public abstract class Database extends RoomDatabase {
                         })
 
                         .build();
+//                insertTestData();
             }
         }
         return INSTANCE;
@@ -74,12 +75,12 @@ public abstract class Database extends RoomDatabase {
         h0.setPhoneName("გელა");
 
         HistoryEntry h1 = new HistoryEntry();
-        h0.setStartTime(new Date(System.currentTimeMillis() - 10 * 60 * 60 * 1000));
-        h0.setPhoneName("ვალერა");
+        h1.setStartTime(new Date(System.currentTimeMillis() - 10 * 60 * 60 * 1000));
+        h1.setPhoneName("ვალერა");
 
         HistoryEntry h2 = new HistoryEntry();
-        h0.setStartTime(new Date(System.currentTimeMillis() - 20 * 60 * 60 * 1000));
-        h0.setPhoneName("ლამზირა");
+        h2.setStartTime(new Date(System.currentTimeMillis() - 20 * 60 * 60 * 1000));
+        h2.setPhoneName("ლამზირა");
 
         return Arrays.asList(h0, h1, h2);
     }

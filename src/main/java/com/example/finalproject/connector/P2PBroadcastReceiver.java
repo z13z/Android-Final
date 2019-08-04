@@ -9,12 +9,8 @@ import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pDeviceList;
 import android.net.wifi.p2p.WifiP2pInfo;
 import android.net.wifi.p2p.WifiP2pManager;
-import android.util.Log;
 
 import com.example.finalproject.MainContract;
-
-import java.util.HashMap;
-import java.util.Map;
 
 //todo zaza
 //from https://developer.android.com/guide/topics/connectivity/wifip2p
@@ -22,18 +18,19 @@ import java.util.Map;
 public class P2PBroadcastReceiver extends BroadcastReceiver {
 
     private WifiP2pManager manager;
+
     private WifiP2pManager.Channel channel;
 
-    private MainContract.Controller connector;
+    private MainContract.Controller controller;
 
-    public P2PBroadcastReceiver(WifiP2pManager manager, WifiP2pManager.Channel channel, MainContract.Controller connector) {
+    public P2PBroadcastReceiver(WifiP2pManager manager, WifiP2pManager.Channel channel, MainContract.Controller controller) {
         super();
         this.manager = manager;
         this.channel = channel;
-        this.connector = connector;
+        this.controller = controller;
     }
 
-    public void discoverPeers(){
+    public void discoverPeers() {
         manager.discoverPeers(channel, new WifiP2pManager.ActionListener() {
             @Override
             public void onSuccess() {
@@ -41,10 +38,7 @@ public class P2PBroadcastReceiver extends BroadcastReceiver {
 
             @Override
             public void onFailure(int reason) {
-                Log.w("zaza test log", "discover peers on failure " + reason);
-//                discoverPeers();
-//                todo zaza implement
-                System.exit(-43);
+                controller.showAlertAndExit("discover peers on failure failed, error code " + reason);
             }
         });
     }
@@ -56,13 +50,12 @@ public class P2PBroadcastReceiver extends BroadcastReceiver {
 
             @Override
             public void onSuccess() {
-                connector.setCurrentPhoneName(phoneName);
+                controller.setCurrentPhoneName(phoneName);
             }
 
             @Override
             public void onFailure(int reason) {
-//                todo zaza implement
-                System.exit(-reason);
+                controller.showAlertAndExit("connect with peer returned error, " + reason);
             }
         });
     }
@@ -77,7 +70,6 @@ public class P2PBroadcastReceiver extends BroadcastReceiver {
             case WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION:
                 break;
             case WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION:
-                Log.i("zaza_test_log","case WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION:");
                 peersChangedAction();
                 break;
             case WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION:
@@ -88,16 +80,16 @@ public class P2PBroadcastReceiver extends BroadcastReceiver {
         }
     }
 
-    public void connectionChangedAction(Intent intent){
+    public void connectionChangedAction(Intent intent) {
         NetworkInfo networkInfo = intent.getParcelableExtra(WifiP2pManager.EXTRA_NETWORK_INFO);
         if (networkInfo.isConnected()) {
             manager.requestConnectionInfo(channel, new WifiP2pManager.ConnectionInfoListener() {
                 @Override
                 public void onConnectionInfoAvailable(WifiP2pInfo info) {
                     if (info.groupFormed && info.isGroupOwner) {
-                        connector.createServerSocket();
+                        controller.createServerSocket();
                     } else if (info.groupFormed) {
-                        connector.createClientSocket(info.groupOwnerAddress.getHostAddress());
+                        controller.createClientSocket(info.groupOwnerAddress.getHostAddress());
                     } else {
 //                        todo zaza implement
                         System.exit(-13);
@@ -107,7 +99,7 @@ public class P2PBroadcastReceiver extends BroadcastReceiver {
         }
     }
 
-    private void peersChangedAction(){
+    private void peersChangedAction() {
         manager.requestPeers(channel, new WifiP2pManager.PeerListListener() {
             @Override
             public void onPeersAvailable(WifiP2pDeviceList peers) {

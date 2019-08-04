@@ -118,6 +118,11 @@ public class MainActivity extends AppCompatActivity implements MainContract.Pres
     }
 
     @Override
+    public void showAlert(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG);
+    }
+
+    @Override
     public void setChatView(MainContract.ChatView chatView) {
         this.chatView = chatView;
     }

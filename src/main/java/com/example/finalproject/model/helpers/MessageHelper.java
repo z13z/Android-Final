@@ -26,6 +26,7 @@ public class MessageHelper {
         dto.setContent(dbMessage.getContent());
         dto.setTime(dbMessage.getTime());
         dto.setFromMe(dbMessage.isFromMe());
+        dto.setId(dbMessage.getId());
         return dto;
     }
 }

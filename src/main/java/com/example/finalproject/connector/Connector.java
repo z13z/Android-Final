@@ -78,7 +78,8 @@ public class Connector extends Thread {
         try {
             writersThreadPool.awaitTermination(0, TimeUnit.MILLISECONDS);
         } catch (InterruptedException e) {
-            Log.e("connection_problem", "can't stop write threads pool");
+            Log.e("connection_problem", "can't stop write threads pool", e);
+            controller.showAlertAndExit("can't stop write threads pool");
         }
         if (writer != null) {
             writer.close();
