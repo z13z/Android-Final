@@ -11,6 +11,7 @@ import com.example.finalproject.model.helpers.HistoryHelper;
 import com.example.finalproject.model.helpers.MessageHelper;
 
 import java.util.List;
+import java.util.UUID;
 
 public class Controller implements MainContract.Controller {
 
@@ -60,6 +61,9 @@ public class Controller implements MainContract.Controller {
 
     @Override
     public void connectionEstablished() {
+        if (model == null) {
+            model = new ModelController(UUID.randomUUID().toString().substring(0, 8));
+        }
         model.chatStarted();
         if (searchForPeers) {
             presenter.showChat(HistoryHelper.getDto(model.getCurrentHistoryEntry()), false);
@@ -82,7 +86,7 @@ public class Controller implements MainContract.Controller {
 
     @Override
     public void readMessage(String message) {
-        presenter.showMessage(MessageHelper.getDto(model.saveMessage(message, true)));
+        presenter.showMessage(MessageHelper.getDto(model.saveMessage(message, false)));
     }
 
     @Override
@@ -95,7 +99,9 @@ public class Controller implements MainContract.Controller {
 
     @Override
     public void setCurrentPhoneName(String phoneName) {
-        model = new ModelController(phoneName);
+        if (model == null) {
+            model = new ModelController(phoneName);
+        }
     }
 
     @Override

@@ -38,6 +38,7 @@ public class ModelController implements MainContract.ChatModel {
         message.setContent(messageStr);
         message.setFromMe(fromMe);
         message.setHistoryId(currentHistory.getHistory().getId());
+        message.setTime(new Date());
         message.setId(Database.getInstance().dataDao().insertMessage(message));
         currentHistory.getMessages().add(message);
         return message;

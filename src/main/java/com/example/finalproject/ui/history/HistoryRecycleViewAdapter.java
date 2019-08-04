@@ -12,6 +12,7 @@ import com.example.finalproject.model.dtos.HistoryEntryDTO;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class HistoryRecycleViewAdapter extends RecyclerView.Adapter<HistoryEntryHolder>{
 
@@ -42,6 +43,7 @@ public class HistoryRecycleViewAdapter extends RecyclerView.Adapter<HistoryEntry
             deletedIds.add(historyEntryDTO.getId());
         }
         historyEntries.clear();
+        presenter.updateTitle(String.format(Locale.getDefault(), "%s (%d)", presenter.getStringFromResources(R.string.history), historyEntries.size()), null);
         notifyDataSetChanged();
         return deletedIds;
     }

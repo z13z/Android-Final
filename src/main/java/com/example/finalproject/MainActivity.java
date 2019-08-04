@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.IntentFilter;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -77,9 +79,15 @@ public class MainActivity extends AppCompatActivity implements MainContract.Pres
     }
 
     @Override
-    public void showMessage(MessageDTO messageDTO) {
+    public void showMessage(final MessageDTO messageDTO) {
         if (chatView != null) {
-            chatView.showMessage(messageDTO);
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            mainHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    chatView.showMessage(messageDTO);
+                }
+            });
         } else {
             controller.closeConnection();
         }
@@ -94,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.Pres
     public void chatFinished() {
         navOnHistoryFragment();
         chatView = null;
-        Toast.makeText(this, R.string.connection_closed, Toast.LENGTH_LONG).show();
+        showAlert(getString(R.string.connection_closed));
     }
 
     @Override
@@ -110,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.Pres
         args.putSerializable(MainContract.HISTORY_ENTRY_KEY, historyEntry);
         args.putBoolean(MainContract.HISTORY_MODE_KEY, historyMode);
         searchPeers = false;
-        Navigation.findNavController(this, R.id.navigation_controller).navigate(R.id.action_historyFragment_to_chatFragment2, args);
+        Navigation.findNavController(this, R.id.navigation_controller).navigate(R.id.nav_chat, args);
     }
 
     @Override
@@ -124,8 +132,14 @@ public class MainActivity extends AppCompatActivity implements MainContract.Pres
     }
 
     @Override
-    public void showAlert(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+    public void showAlert(final String message) {
+        Handler mainHandler = new Handler(Looper.getMainLooper());
+        mainHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(MainActivity.this, message, Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     @Override

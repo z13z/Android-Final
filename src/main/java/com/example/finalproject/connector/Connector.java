@@ -3,7 +3,6 @@ package com.example.finalproject.connector;
 import android.util.Log;
 
 import com.example.finalproject.MainContract;
-import com.example.finalproject.model.entities.Message;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,7 +13,6 @@ import java.io.PrintWriter;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -23,7 +21,7 @@ public class Connector extends Thread {
 
     private static final int CONNECTION_PORT = 10024;
 
-    private static final int CONNECTION_TIMEOUT = 30_000;
+    private static final int CONNECTION_TIMEOUT = 60 * 60 * 1000;
 
     private String serverAddress;
 
@@ -54,10 +52,10 @@ public class Connector extends Thread {
         try {
             if (serverAddress != null) {
                 createClientSocket();
-                readLoop();
             } else {
                 createServerSocket();
             }
+            readLoop();
         } catch (IOException e) {
             Log.e("connection_problem", "error wile creating server/client socket", e);
             controller.showAlertAndExit("error wile creating server/client socket");
@@ -68,7 +66,7 @@ public class Connector extends Thread {
         writersThreadPool.execute(new Runnable() {
             @Override
             public void run() {
-                writer.write(message);
+                writer.write(message + '\n');
                 writer.flush();
             }
         });
@@ -149,7 +147,9 @@ public class Connector extends Thread {
         serverSocket = new ServerSocket(CONNECTION_PORT);
         socket = serverSocket.accept();
         os = socket.getOutputStream();
+        writer = new PrintWriter(os);
         is = socket.getInputStream();
+        reader = new BufferedReader(new InputStreamReader(is));
         controller.connectionEstablished();
     }
 }
