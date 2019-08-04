@@ -1,11 +1,12 @@
 package com.example.finalproject.model.entities;
 
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 
 import java.util.Date;
 
-@Entity
+@Entity(indices = {@Index(value = "phoneName", unique = true)})
 public class HistoryEntry {
 
     @PrimaryKey(autoGenerate = true)

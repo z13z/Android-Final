@@ -3,11 +3,13 @@ package com.example.finalproject.model.entities;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
+import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 
 import java.util.Date;
 
-@Entity(foreignKeys = @ForeignKey(entity = HistoryEntry.class, parentColumns = "id", childColumns = "id", onUpdate = ForeignKey.CASCADE, onDelete = ForeignKey.CASCADE))
+@Entity(foreignKeys = @ForeignKey(entity = HistoryEntry.class, parentColumns = "id", childColumns = "history_id", onUpdate = ForeignKey.CASCADE, onDelete = ForeignKey.CASCADE),
+        indices = {@Index(value = "history_id")})
 public class Message {
 
     @PrimaryKey(autoGenerate = true)
