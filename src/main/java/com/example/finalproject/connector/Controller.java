@@ -111,15 +111,5 @@ public class Controller implements MainContract.Controller {
     @Override
     public void showAlertAndExit(String message) {
         presenter.showAlert(message);
-            new Thread() {
-                @Override
-                public void run() {
-                    try {
-                        Thread.sleep(FATAL_ALERT_DURATION);
-                    } catch (InterruptedException ignore) {
-                    }
-                    System.exit(-43);
-                }
-            };
     }
 }

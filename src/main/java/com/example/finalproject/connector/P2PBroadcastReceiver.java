@@ -38,7 +38,7 @@ public class P2PBroadcastReceiver extends BroadcastReceiver {
 
             @Override
             public void onFailure(int reason) {
-                controller.showAlertAndExit("discover peers on failure failed, error code " + reason);
+                controller.showAlertAndExit("discover peers on failed, error code " + reason);
             }
         });
     }
