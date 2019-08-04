@@ -41,7 +41,6 @@ public class HistoryRecycleViewAdapter extends RecyclerView.Adapter<HistoryEntry
         for (HistoryEntryDTO historyEntryDTO : historyEntries) {
             deletedIds.add(historyEntryDTO.getId());
         }
-        //todo zaza show label from fragment
         historyEntries.clear();
         notifyDataSetChanged();
         return deletedIds;

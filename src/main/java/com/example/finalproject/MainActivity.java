@@ -38,6 +38,10 @@ public class MainActivity extends AppCompatActivity implements MainContract.Pres
 
     private boolean searchPeers = false;
 
+    private BroadcastReceiver receiver;
+
+    private IntentFilter receiverIntentFilter;
+
     public static Context getContext() {
         return context;
     }
@@ -68,7 +72,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.Pres
 
     @Override
     public void registerBroadcastReceiver(BroadcastReceiver receiver, IntentFilter intentFilter) {
-        registerReceiver(receiver, intentFilter);
+        this.receiver = receiver;
+        this.receiverIntentFilter= intentFilter;
     }
 
     @Override
@@ -137,6 +142,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.Pres
             navOnHistoryFragment();
         } else if (id == R.id.nav_peer_search_item) {
             Navigation.findNavController(this, R.id.navigation_controller).navigate(R.id.nav_peer_search, new Bundle());
+            registerBroadcastReceiver(receiver, receiverIntentFilter);
             searchPeers = true;
             controller.discoverPeers();
         }
@@ -160,7 +166,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.Pres
             if (chatView != null) {
                 controller.closeConnection();
             } else if (searchPeers) {
-                controller.stopSearchPeers();
+                unregisterReceiver(receiver);
+                controller.closeConnection();
                 searchPeers = false;
                 navOnHistoryFragment();
             } else {

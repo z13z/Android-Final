@@ -37,8 +37,6 @@ public interface MainContract {
 
         void closeConnection();
 
-        void stopSearchPeers();
-
         void readMessage(String message);
 
         void writeMessage(String message);

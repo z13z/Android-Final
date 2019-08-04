@@ -59,8 +59,8 @@ public class Connector extends Thread {
                 createServerSocket();
             }
         } catch (IOException e) {
-//            todo zaza implement
-            System.exit(-42);
+            Log.e("connection_problem", "error wile creating server/client socket", e);
+            controller.showAlertAndExit("error wile creating server/client socket");
         }
     }
 

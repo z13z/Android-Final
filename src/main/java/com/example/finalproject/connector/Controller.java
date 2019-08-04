@@ -14,8 +14,6 @@ import java.util.List;
 
 public class Controller implements MainContract.Controller {
 
-    private static final long FATAL_ALERT_DURATION = 5000;
-
     private P2PBroadcastReceiver broadcastReceiver;
 
     private MainContract.Presenter presenter;
@@ -72,11 +70,6 @@ public class Controller implements MainContract.Controller {
     @Override
     public void closeConnection(){
         connector.closeConnection();
-    }
-
-    @Override
-    public void stopSearchPeers(){
-//        todo zaza implement
     }
 
     @Override

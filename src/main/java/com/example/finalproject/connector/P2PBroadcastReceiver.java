@@ -91,8 +91,7 @@ public class P2PBroadcastReceiver extends BroadcastReceiver {
                     } else if (info.groupFormed) {
                         controller.createClientSocket(info.groupOwnerAddress.getHostAddress());
                     } else {
-//                        todo zaza implement
-                        System.exit(-13);
+                        controller.showAlertAndExit("requestConnection info didn't succeeded");
                     }
                 }
             });
