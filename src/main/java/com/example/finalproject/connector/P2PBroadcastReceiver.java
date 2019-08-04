@@ -102,7 +102,7 @@ public class P2PBroadcastReceiver extends BroadcastReceiver {
         manager.requestPeers(channel, new WifiP2pManager.PeerListListener() {
             @Override
             public void onPeersAvailable(WifiP2pDeviceList peers) {
-                if (peers != null && peers.getDeviceList() != null && peers.getDeviceList().isEmpty()) {
+                if (peers != null && peers.getDeviceList() != null && !peers.getDeviceList().isEmpty()) {
                     WifiP2pDevice device = peers.getDeviceList().iterator().next();
                     connectWithPeer(device.deviceAddress, device.deviceName);
                 }

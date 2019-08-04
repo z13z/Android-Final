@@ -22,22 +22,26 @@ public class Controller implements MainContract.Controller {
 
     private MainContract.ChatModel model;
 
-    public Controller(WifiP2pManager manager, WifiP2pManager.Channel channel, MainContract.Presenter presenter){
+    private boolean searchForPeers;
+
+
+    public Controller(WifiP2pManager manager, WifiP2pManager.Channel channel, MainContract.Presenter presenter) {
         this.presenter = presenter;
-        initBroadcastReceiver(manager,channel);
+        initBroadcastReceiver(manager, channel);
     }
 
-    private void initBroadcastReceiver(WifiP2pManager manager, WifiP2pManager.Channel channel){
+    private void initBroadcastReceiver(WifiP2pManager manager, WifiP2pManager.Channel channel) {
         broadcastReceiver = new P2PBroadcastReceiver(manager, channel, this);
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION);
         intentFilter.addAction(WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION);
         intentFilter.addAction(WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION);
         intentFilter.addAction(WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION);
-        presenter.registerBroadcastReceiver(broadcastReceiver,intentFilter);
+        presenter.registerBroadcastReceiver(broadcastReceiver, intentFilter);
     }
 
-    public void discoverPeers(){
+    public void discoverPeers() {
+        searchForPeers = true;
         broadcastReceiver.discoverPeers();
     }
 
@@ -57,7 +61,11 @@ public class Controller implements MainContract.Controller {
     @Override
     public void connectionEstablished() {
         model.chatStarted();
-        presenter.showChat(HistoryHelper.getDto(model.getCurrentHistoryEntry()), false);
+        if (searchForPeers) {
+            presenter.showChat(HistoryHelper.getDto(model.getCurrentHistoryEntry()), false);
+        } else {
+            closeConnection();
+        }
     }
 
     @Override
@@ -68,7 +76,7 @@ public class Controller implements MainContract.Controller {
     }
 
     @Override
-    public void closeConnection(){
+    public void closeConnection() {
         connector.closeConnection();
     }
 
@@ -78,7 +86,7 @@ public class Controller implements MainContract.Controller {
     }
 
     @Override
-    public void writeMessage(String message){
+    public void writeMessage(String message) {
         if (connector != null) {
             connector.writeMessage(message);
             presenter.showMessage(MessageHelper.getDto(model.saveMessage(message, true)));
@@ -104,5 +112,10 @@ public class Controller implements MainContract.Controller {
     @Override
     public void showAlertAndExit(String message) {
         presenter.showAlert(message);
+    }
+
+    @Override
+    public void stopSearchForPeers() {
+        searchForPeers = false;
     }
 }

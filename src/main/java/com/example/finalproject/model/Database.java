@@ -52,7 +52,6 @@ public abstract class Database extends RoomDatabase {
                         })
 
                         .build();
-                insertTestData();
             }
         }
         return INSTANCE;

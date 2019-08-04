@@ -141,8 +141,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.Pres
         if (id == R.id.nav_history_item) {
             navOnHistoryFragment();
         } else if (id == R.id.nav_peer_search_item) {
+            registerReceiver(receiver, receiverIntentFilter);
             Navigation.findNavController(this, R.id.navigation_controller).navigate(R.id.nav_peer_search, new Bundle());
-            registerBroadcastReceiver(receiver, receiverIntentFilter);
             searchPeers = true;
             controller.discoverPeers();
         }
@@ -167,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.Pres
                 controller.closeConnection();
             } else if (searchPeers) {
                 unregisterReceiver(receiver);
-                controller.closeConnection();
+                controller.stopSearchForPeers();
                 searchPeers = false;
                 navOnHistoryFragment();
             } else {

@@ -52,7 +52,7 @@ public class Connector extends Thread {
     @Override
     public void run(){
         try {
-            if (serverAddress == null) {
+            if (serverAddress != null) {
                 createClientSocket();
                 readLoop();
             } else {
@@ -146,7 +146,7 @@ public class Connector extends Thread {
     }
 
     private void createServerSocket() throws IOException {
-        serverSocket = new ServerSocket(8888);
+        serverSocket = new ServerSocket(CONNECTION_PORT);
         socket = serverSocket.accept();
         os = socket.getOutputStream();
         is = socket.getInputStream();
