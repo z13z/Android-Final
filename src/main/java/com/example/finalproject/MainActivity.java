@@ -14,6 +14,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.navigation.Navigation;
@@ -22,6 +23,7 @@ import com.example.finalproject.connector.Controller;
 import com.example.finalproject.model.dtos.HistoryEntryDTO;
 import com.example.finalproject.model.dtos.MessageDTO;
 
+import java.util.Collections;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements MainContract.Presenter, NavigationView.OnNavigationItemSelectedListener {
@@ -90,7 +92,14 @@ public class MainActivity extends AppCompatActivity implements MainContract.Pres
     }
 
     @Override
-    public void showChat(HistoryEntryDTO historyEntry, boolean historyMode){
+    public void showChat(final HistoryEntryDTO historyEntry, boolean historyMode){
+        findViewById(R.id.deleteButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                controller.deleteHistoryEntities(Collections.singletonList(historyEntry.getId()));
+                navOnHistoryFragment();
+            }
+        });
         Bundle args = new Bundle();
         args.putSerializable(MainContract.HISTORY_ENTRY_KEY, historyEntry);
         args.putBoolean(MainContract.HISTORY_MODE_KEY, historyMode);
@@ -132,6 +141,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.Pres
     }
 
     private void navOnHistoryFragment(){
+        findViewById(R.id.deleteButton).setVisibility(View.INVISIBLE);
         Navigation.findNavController(this, R.id.navigation_controller).popBackStack(R.id.nav_history, false);
     }
 

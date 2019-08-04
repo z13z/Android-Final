@@ -1,5 +1,6 @@
 package com.example.finalproject.ui.chat;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -50,6 +51,10 @@ public class ChatFragment extends Fragment implements MainContract.ChatView, Vie
         if (args == null || args.getBoolean(MainContract.HISTORY_MODE_KEY)) {
             button.setVisibility(View.INVISIBLE);
             chatView.findViewById(R.id.messageField).setVisibility(View.INVISIBLE);
+            Activity activity = getActivity();
+            if (activity != null) {
+                activity.findViewById(R.id.deleteButton).setVisibility(View.VISIBLE);
+            }
         } else {
             if (presenter != null) {
                 presenter.setChatView(this);
