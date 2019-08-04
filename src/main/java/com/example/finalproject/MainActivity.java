@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -119,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.Pres
 
     @Override
     public void showAlert(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG);
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -163,8 +164,23 @@ public class MainActivity extends AppCompatActivity implements MainContract.Pres
                 searchPeers = false;
                 navOnHistoryFragment();
             } else {
+                findViewById(R.id.deleteButton).setVisibility(View.INVISIBLE);
                 super.onBackPressed();
             }
         }
+    }
+
+    @Override
+    public void updateTitle(String title, String subtitle) {
+        ActionBar toolbar= getSupportActionBar();
+        if (toolbar != null) {
+            toolbar.setTitle(title);
+            toolbar.setSubtitle(subtitle);
+        }
+    }
+
+    @Override
+    public String getStringFromResources(int id){
+        return getString(id);
     }
 }

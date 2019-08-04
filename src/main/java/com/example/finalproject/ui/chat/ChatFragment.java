@@ -34,9 +34,10 @@ public class ChatFragment extends Fragment implements MainContract.ChatView, Vie
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         Bundle args = getArguments();
+        HistoryEntryDTO historyEntry = null;
         if (args != null) {
             if (args.containsKey(MainContract.HISTORY_ENTRY_KEY)) {
-                HistoryEntryDTO historyEntry = (HistoryEntryDTO) args.getSerializable(MainContract.HISTORY_ENTRY_KEY);
+                historyEntry = (HistoryEntryDTO) args.getSerializable(MainContract.HISTORY_ENTRY_KEY);
                 if (historyEntry != null) {
                     viewAdapter = new ChatRecycleViewAdapter(historyEntry.getMessages());
                     recyclerView.setAdapter(viewAdapter);
@@ -55,9 +56,15 @@ public class ChatFragment extends Fragment implements MainContract.ChatView, Vie
             if (activity != null) {
                 activity.findViewById(R.id.deleteButton).setVisibility(View.VISIBLE);
             }
+            if (historyEntry != null) {
+                presenter.updateTitle(historyEntry.getPhoneName(), MainContract.DATE_FORMAT.format(historyEntry.getStartTime()));
+            }
         } else {
             if (presenter != null) {
                 presenter.setChatView(this);
+                if (historyEntry != null) {
+                    presenter.updateTitle(historyEntry.getPhoneName(), null);
+                }
             }
         }
 

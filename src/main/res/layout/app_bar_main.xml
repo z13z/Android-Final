@@ -20,6 +20,8 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
+            app:title="@string/app_name"
+            app:subtitle="@string/app_name"
             app:popupTheme="@style/AppTheme.PopupOverlay" >
 
             <Button
@@ -30,6 +32,7 @@
                 android:layout_gravity="end"
                 android:background="@android:drawable/ic_menu_delete" />
         </android.support.v7.widget.Toolbar>
+
 
     </android.support.design.widget.AppBarLayout>
 

@@ -15,8 +15,6 @@ import java.util.Locale;
 
 public class HistoryEntryHolder extends RecyclerView.ViewHolder {
 
-    private static DateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy - hh:mm", Locale.getDefault());
-
     private HistoryEntryDTO historyEntry;
 
     private TextView phoneName;
@@ -41,7 +39,7 @@ public class HistoryEntryHolder extends RecyclerView.ViewHolder {
     public void setFields(HistoryEntryDTO historyEntry) {
         this.historyEntry = historyEntry;
         phoneName.setText(historyEntry.getPhoneName());
-        historyPeriod.setText(DATE_FORMAT.format(historyEntry.getStartTime()));
+        historyPeriod.setText(MainContract.DATE_FORMAT.format(historyEntry.getStartTime()));
         messagesCount.setText(String.valueOf(historyEntry.getMessages().size()));
     }
 }

@@ -13,11 +13,10 @@ import android.widget.Button;
 
 import com.example.finalproject.MainContract;
 import com.example.finalproject.R;
-import com.example.finalproject.model.Database;
 import com.example.finalproject.model.dtos.HistoryEntryDTO;
-import com.example.finalproject.model.helpers.HistoryHelper;
 
 import java.util.List;
+import java.util.Locale;
 
 public class HistoryFragment extends Fragment implements View.OnClickListener {
 
@@ -44,6 +43,7 @@ public class HistoryFragment extends Fragment implements View.OnClickListener {
         } else {
             historyView.findViewById(R.id.historyMotFoundLabel).setVisibility(View.INVISIBLE);
         }
+        presenter.updateTitle(String.format(Locale.getDefault(), "%s (%d)", presenter.getStringFromResources(R.string.history), historyEntries.size()), null);
         return historyView;
     }
 

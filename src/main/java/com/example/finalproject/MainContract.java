@@ -1,5 +1,6 @@
 package com.example.finalproject;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.IntentFilter;
 
@@ -8,13 +9,19 @@ import com.example.finalproject.model.dtos.MessageDTO;
 import com.example.finalproject.model.entities.HistoryWithMessages;
 import com.example.finalproject.model.entities.Message;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 public interface MainContract {
 
     String HISTORY_ENTRY_KEY = "historyEntryKey";
 
     String HISTORY_MODE_KEY = "historyMode";
+
+    @SuppressLint("ConstantLocale")
+    DateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy - hh:mm:ss", Locale.getDefault());
 
     interface Controller {
 
@@ -64,6 +71,10 @@ public interface MainContract {
         void showAlert(String message);
 
         void setChatView(ChatView chatView);
+
+        void updateTitle(String title, String subtitle);
+
+        String getStringFromResources(int id);
     }
 
     interface ChatView{
