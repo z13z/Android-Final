@@ -47,7 +47,7 @@ public interface MainContract {
 
         List<HistoryEntryDTO> getHistoryEntities();
 
-        void showAlertAndExit(String message);
+        void showAlert(String message);
 
         void stopSearchForPeers();
     }

@@ -44,6 +44,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.Pres
 
     private IntentFilter receiverIntentFilter;
 
+    private boolean receiverRegistered;
+
     public static Context getContext() {
         return context;
     }
@@ -100,9 +102,11 @@ public class MainActivity extends AppCompatActivity implements MainContract.Pres
 
     @Override
     public void chatFinished() {
-        navOnHistoryFragment();
-        chatView = null;
-        showAlert(getString(R.string.connection_closed));
+        if (chatView != null) {
+            navOnHistoryFragment(R.id.action_nav_chat_to_nav_history);
+            chatView = null;
+            showAlert(getString(R.string.connection_closed));
+        }
     }
 
     @Override
@@ -111,7 +115,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.Pres
             @Override
             public void onClick(View v) {
                 controller.deleteHistoryEntities(Collections.singletonList(historyEntry.getId()));
-                navOnHistoryFragment();
+                navOnHistoryFragment(R.id.action_nav_chat_to_nav_history);
             }
         });
         Bundle args = new Bundle();
@@ -137,7 +141,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.Pres
         mainHandler.post(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(MainActivity.this, message, Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -153,9 +157,13 @@ public class MainActivity extends AppCompatActivity implements MainContract.Pres
         int id = item.getItemId();
 
         if (id == R.id.nav_history_item) {
-            navOnHistoryFragment();
+            findViewById(R.id.deleteButton).setVisibility(View.INVISIBLE);
+            Navigation.findNavController(this, R.id.navigation_controller).popBackStack(R.id.nav_history, false);
         } else if (id == R.id.nav_peer_search_item) {
-            registerReceiver(receiver, receiverIntentFilter);
+            if (!receiverRegistered) {
+                registerReceiver(receiver, receiverIntentFilter);
+                receiverRegistered = true;
+            }
             Navigation.findNavController(this, R.id.navigation_controller).navigate(R.id.nav_peer_search, new Bundle());
             searchPeers = true;
             controller.discoverPeers();
@@ -166,9 +174,9 @@ public class MainActivity extends AppCompatActivity implements MainContract.Pres
         return true;
     }
 
-    private void navOnHistoryFragment(){
+    private void navOnHistoryFragment(int actionId){
         findViewById(R.id.deleteButton).setVisibility(View.INVISIBLE);
-        Navigation.findNavController(this, R.id.navigation_controller).popBackStack(R.id.nav_history, false);
+        Navigation.findNavController(this, R.id.navigation_controller).navigate(actionId);
     }
 
     @Override
@@ -180,14 +188,35 @@ public class MainActivity extends AppCompatActivity implements MainContract.Pres
             if (chatView != null) {
                 controller.closeConnection();
             } else if (searchPeers) {
-                unregisterReceiver(receiver);
+                if (receiverRegistered) {
+                    unregisterReceiver(receiver);
+                    receiverRegistered = false;
+                }
                 controller.stopSearchForPeers();
                 searchPeers = false;
-                navOnHistoryFragment();
+                navOnHistoryFragment(R.id.action_nav_peer_search_to_nav_history);
             } else {
                 findViewById(R.id.deleteButton).setVisibility(View.INVISIBLE);
-                super.onBackPressed();
+                System.exit(0);
             }
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (receiverRegistered) {
+            unregisterReceiver(receiver);
+            receiverRegistered = false;
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!receiverRegistered) {
+            registerReceiver(receiver, receiverIntentFilter);
+            receiverRegistered = true;
         }
     }
 

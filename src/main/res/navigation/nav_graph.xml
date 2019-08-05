@@ -40,5 +40,9 @@
         <action
             android:id="@+id/action_searchPeerFragment_to_chatFragment"
             app:destination="@id/nav_chat" />
+        <action
+            android:id="@+id/action_nav_peer_search_to_nav_history"
+            app:popUpTo="@id/nav_history"
+            app:destination="@id/nav_history" />
     </fragment>
 </navigation>

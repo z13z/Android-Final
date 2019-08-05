@@ -12,7 +12,7 @@ import android.net.wifi.p2p.WifiP2pManager;
 
 import com.example.finalproject.MainContract;
 
-//todo zaza
+//used codes from this links:
 //from https://developer.android.com/guide/topics/connectivity/wifip2p
 //https://developer.android.com/training/connect-devices-wirelessly/wifi-direct
 public class P2PBroadcastReceiver extends BroadcastReceiver {
@@ -38,7 +38,7 @@ public class P2PBroadcastReceiver extends BroadcastReceiver {
 
             @Override
             public void onFailure(int reason) {
-                controller.showAlertAndExit("discover peers on failed, error code " + reason);
+                controller.showAlert("discover peers on failed, error code " + reason);
             }
         });
     }
@@ -55,7 +55,7 @@ public class P2PBroadcastReceiver extends BroadcastReceiver {
 
             @Override
             public void onFailure(int reason) {
-                controller.showAlertAndExit("connect with peer returned error, " + reason);
+                controller.showAlert("connect with peer returned error, " + reason);
             }
         });
     }
@@ -91,7 +91,7 @@ public class P2PBroadcastReceiver extends BroadcastReceiver {
                     } else if (info.groupFormed) {
                         controller.createClientSocket(info.groupOwnerAddress.getHostAddress());
                     } else {
-                        controller.showAlertAndExit("requestConnection info didn't succeeded");
+                        controller.showAlert("requestConnection info didn't succeeded");
                     }
                 }
             });

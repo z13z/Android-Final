@@ -13,6 +13,7 @@ import java.io.PrintWriter;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -22,6 +23,8 @@ public class Connector extends Thread {
     private static final int CONNECTION_PORT = 10024;
 
     private static final int CONNECTION_TIMEOUT = 60 * 60 * 1000;
+
+    private static final int CONNECT_TRIES_INTERVAL = 5 * 1000;
 
     private String serverAddress;
 
@@ -50,15 +53,17 @@ public class Connector extends Thread {
     @Override
     public void run(){
         try {
-            if (serverAddress != null) {
-                createClientSocket();
-            } else {
-                createServerSocket();
+            if (!isInterrupted()) {
+                if (serverAddress != null) {
+                    createClientSocket();
+                } else {
+                    createServerSocket();
+                }
+                readLoop();
             }
-            readLoop();
         } catch (IOException e) {
-            Log.e("connection_problem", "error wile creating server/client socket", e);
-            controller.showAlertAndExit("error wile creating server/client socket");
+            controller.showAlert("can't connect with peer");
+            run();
         }
     }
 
@@ -77,7 +82,7 @@ public class Connector extends Thread {
             writersThreadPool.awaitTermination(0, TimeUnit.MILLISECONDS);
         } catch (InterruptedException e) {
             Log.e("connection_problem", "can't stop write threads pool", e);
-            controller.showAlertAndExit("can't stop write threads pool");
+            controller.showAlert("can't stop write threads pool");
         }
         if (writer != null) {
             writer.close();
@@ -122,20 +127,36 @@ public class Connector extends Thread {
         controller.connectionFinished();
     }
 
-    private void readLoop() throws IOException {
+    private void readLoop() {
         String line;
-        while ((line = reader.readLine()) != null) {
-            controller.readMessage(line);
+        try {
+            while ((line = reader.readLine()) != null) {
+                controller.readMessage(line);
+            }
+            Log.i("connection_info", "connection closed");
+            controller.connectionFinished();
+            closeConnection();
+        } catch (IOException e) {
+            Log.i("connection_info", "connection closed");
+            closeConnection();
         }
-        Log.i("connection_info", "connection closed");
-        controller.connectionFinished();
-        closeConnection();
+
     }
 
     private void createClientSocket() throws IOException {
+        if (isInterrupted()) {
+            return;
+        }
         socket = new Socket();
         socket.bind(null);
-        socket.connect(new InetSocketAddress(serverAddress, CONNECTION_PORT), CONNECTION_TIMEOUT);
+        try {
+            socket.connect(new InetSocketAddress(serverAddress, CONNECTION_PORT), CONNECT_TRIES_INTERVAL);
+        } catch (SocketTimeoutException e) {
+            createClientSocket();
+//            todo zaza remove
+            controller.showAlert("can't connect with server");
+            return;
+        }
         os = socket.getOutputStream();
         writer = new PrintWriter(os);
         is = socket.getInputStream();

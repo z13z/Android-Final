@@ -49,12 +49,20 @@ public class Controller implements MainContract.Controller {
 
     @Override
     public void createServerSocket() {
+        if (connector != null) {
+            connector.interrupt();
+            closeConnection();
+        }
         connector = new Connector(null, this);
         connector.start();
     }
 
     @Override
     public void createClientSocket(String address) {
+        if (connector != null) {
+            connector.interrupt();
+            closeConnection();
+        }
         connector = new Connector(address, this);
         connector.start();
     }
@@ -81,7 +89,9 @@ public class Controller implements MainContract.Controller {
 
     @Override
     public void closeConnection() {
-        connector.closeConnection();
+        if (connector != null) {
+            connector.closeConnection();
+        }
     }
 
     @Override
@@ -116,12 +126,17 @@ public class Controller implements MainContract.Controller {
     }
 
     @Override
-    public void showAlertAndExit(String message) {
+    public void showAlert(String message) {
         presenter.showAlert(message);
     }
 
     @Override
     public void stopSearchForPeers() {
         searchForPeers = false;
+        if (connector != null) {
+            connector.interrupt();
+            connector.closeConnection();
+            connector = null;
+        }
     }
 }
