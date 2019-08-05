@@ -103,8 +103,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.Pres
     @Override
     public void chatFinished() {
         if (chatView != null) {
-            navOnHistoryFragment(R.id.action_nav_chat_to_nav_history);
             chatView = null;
+            navOnHistoryFragment(R.id.action_nav_chat_to_nav_history);
             showAlert(getString(R.string.connection_closed));
         }
     }

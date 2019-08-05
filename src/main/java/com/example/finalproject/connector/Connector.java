@@ -134,7 +134,6 @@ public class Connector extends Thread {
                 controller.readMessage(line);
             }
             Log.i("connection_info", "connection closed");
-            controller.connectionFinished();
             closeConnection();
         } catch (IOException e) {
             Log.i("connection_info", "connection closed");

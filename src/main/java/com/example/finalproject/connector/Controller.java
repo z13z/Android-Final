@@ -91,6 +91,8 @@ public class Controller implements MainContract.Controller {
     public void closeConnection() {
         if (connector != null) {
             connector.closeConnection();
+        } else {
+            presenter.chatFinished();
         }
     }
 
