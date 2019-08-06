@@ -27,7 +27,7 @@ class HistoryEntryHolder extends RecyclerView.ViewHolder {
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.showChat(historyEntry, false);
+                presenter.showChat(historyEntry, true);
             }
         });
     }
