@@ -12,9 +12,6 @@ import android.net.wifi.p2p.WifiP2pManager;
 
 import com.example.finalproject.MainContract;
 
-//used codes from this links:
-//from https://developer.android.com/guide/topics/connectivity/wifip2p
-//https://developer.android.com/training/connect-devices-wirelessly/wifi-direct
 public class P2PBroadcastReceiver extends BroadcastReceiver {
 
     private WifiP2pManager manager;

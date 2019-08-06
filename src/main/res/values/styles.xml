@@ -17,4 +17,16 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <!--example from https://stackoverflow.com/questions/28487312/how-to-change-the-toolbar-text-size-->
+    <style name="toolbarTextSize" parent="@style/Base.TextAppearance.AppCompat.Title">
+        <item name="android:textSize">17sp</item>
+    </style>
+    <style name="subtitleTextSize" parent="@style/Base.TextAppearance.AppCompat.Title">
+        <item name="android:textSize">15sp</item>
+    </style>
+    <!--example from https://stackoverflow.com/questions/28620883/how-to-change-toolbar-home-icon-color/28631979-->
+    <style name="toolbarNavIconColor" parent="AppTheme">
+        <item name="android:textColorSecondary">@android:color/black</item>
+    </style>
+
 </resources>

@@ -1,5 +1,6 @@
 package com.example.finalproject.ui.chat;
 
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
@@ -30,11 +31,12 @@ public class MessageHolder extends RecyclerView.ViewHolder {
         return sentTime;
     }
 
-    //used https://developer.android.com/reference/android/support/constraint/ConstraintSet
-    public void setFromMe(boolean fromMe) {
+    public void setFromMe(boolean fromMe, Drawable background) {
         ConstraintSet constraints = new ConstraintSet();
         constraints.clone((ConstraintLayout) itemView);
+        itemView.findViewById(R.id.messageBackground).setBackground(background);
         constraints.clear(R.id.messageBackground, fromMe ? ConstraintSet.START : ConstraintSet.END);
         constraints.applyTo((ConstraintLayout) itemView);
+
     }
 }

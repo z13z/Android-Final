@@ -26,4 +26,5 @@
     <string name="connection_closed">connection closed</string>
     <string name="clear_history">ისტორიის გასუფთავება</string>
     <string name="history_not_found">ისტროია არ მოიძებნა</string>
+    <string name="searching">ძებნა</string>
 </resources>

@@ -9,10 +9,6 @@ import com.example.finalproject.MainContract;
 import com.example.finalproject.R;
 import com.example.finalproject.model.dtos.HistoryEntryDTO;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Locale;
-
 public class HistoryEntryHolder extends RecyclerView.ViewHolder {
 
     private HistoryEntryDTO historyEntry;

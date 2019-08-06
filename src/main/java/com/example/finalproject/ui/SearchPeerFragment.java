@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.finalproject.MainContract;
 import com.example.finalproject.R;
 
 public class SearchPeerFragment extends Fragment implements View.OnClickListener {
@@ -18,6 +19,10 @@ public class SearchPeerFragment extends Fragment implements View.OnClickListener
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View searchPeersView = inflater.inflate(R.layout.fragment_search_peer, container, false);
         searchPeersView.findViewById(R.id.buttonCancelConnection).setOnClickListener(this);
+        MainContract.Presenter presenter = (MainContract.Presenter) getActivity();
+        if (presenter != null) {
+            presenter.updateTitle(presenter.getStringFromResources(R.string.searching), null);
+        }
         return searchPeersView;
     }
 

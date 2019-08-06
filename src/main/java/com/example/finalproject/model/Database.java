@@ -50,7 +50,6 @@ public abstract class Database extends RoomDatabase {
                                 });
                             }
                         })
-
                         .build();
             }
         }

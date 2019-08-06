@@ -23,6 +23,7 @@
                 android:layout_marginEnd="8dp"
                 android:ems="10"
                 android:hint="@string/text_area_hint"
+                app:backgroundTint="@color/darker_pink"
                 android:inputType="textPersonName"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/sendMessageButton"
@@ -31,10 +32,11 @@
 
             <Button
                 android:id="@+id/sendMessageButton"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginEnd="8dp"
-                android:background="@drawable/ic_menu_send"
+                android:background="@drawable/right_arrow"
+                android:backgroundTint="@color/darker_pink"
                 app:layout_constraintBottom_toBottomOf="@+id/messageField"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/messageField" />

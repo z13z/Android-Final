@@ -36,17 +36,17 @@ public class ChatFragment extends Fragment implements MainContract.ChatView, Vie
 
         Bundle args = getArguments();
         HistoryEntryDTO historyEntry = null;
+        presenter = (MainContract.Presenter) getActivity();
         if (args != null) {
             if (args.containsKey(MainContract.HISTORY_ENTRY_KEY)) {
                 historyEntry = (HistoryEntryDTO) args.getSerializable(MainContract.HISTORY_ENTRY_KEY);
                 if (historyEntry != null) {
-                    viewAdapter = new ChatRecycleViewAdapter(historyEntry.getMessages());
+                    viewAdapter = new ChatRecycleViewAdapter(historyEntry.getMessages(), presenter);
                     recyclerView.setAdapter(viewAdapter);
                 }
             }
         }
 
-        presenter = (MainContract.Presenter) getActivity();
 
         if (args == null || args.getBoolean(MainContract.HISTORY_MODE_KEY)) {
             hideChatElements(chatView);

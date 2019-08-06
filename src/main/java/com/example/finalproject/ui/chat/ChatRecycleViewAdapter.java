@@ -1,5 +1,6 @@
 package com.example.finalproject.ui.chat;
 
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,8 +18,11 @@ public class ChatRecycleViewAdapter extends RecyclerView.Adapter<MessageHolder> 
 
     private List<MessageDTO> messages;
 
-    public ChatRecycleViewAdapter(List<MessageDTO> messages) {
+    private MainContract.Presenter presenter;
+
+    public ChatRecycleViewAdapter(List<MessageDTO> messages, MainContract.Presenter presenter) {
         this.messages = messages;
+        this.presenter = presenter;
     }
 
     @NonNull
@@ -40,7 +44,8 @@ public class ChatRecycleViewAdapter extends RecyclerView.Adapter<MessageHolder> 
         MessageDTO entry = messages.get(index);
         itemViewHolder.getMessageContent().setText(entry.getContent());
         itemViewHolder.getSentTime().setText(MainContract.DATE_FORMAT.format(entry.getTime()));
-        itemViewHolder.setFromMe(entry.isFromMe());
+        Drawable background = presenter.getDrawableFromResources(entry.isFromMe() ? R.drawable.shape_message_background_pink : R.drawable.shape_message_background_tan);
+        itemViewHolder.setFromMe(entry.isFromMe(), background);
     }
 
     @Override

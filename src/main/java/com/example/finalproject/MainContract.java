@@ -3,6 +3,7 @@ package com.example.finalproject;
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.IntentFilter;
+import android.graphics.drawable.Drawable;
 
 import com.example.finalproject.model.dtos.HistoryEntryDTO;
 import com.example.finalproject.model.dtos.MessageDTO;
@@ -75,6 +76,8 @@ public interface MainContract {
         void updateTitle(String title, String subtitle);
 
         String getStringFromResources(int id);
+
+        Drawable getDrawableFromResources(int id);
     }
 
     interface ChatView{

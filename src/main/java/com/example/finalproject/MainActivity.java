@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.IntentFilter;
+import android.graphics.drawable.Drawable;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -45,6 +46,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.Pres
     private IntentFilter receiverIntentFilter;
 
     private boolean receiverRegistered;
+
+    private boolean onHistoryPage = true;
 
     public static Context getContext() {
         return context;
@@ -110,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.Pres
     }
 
     @Override
-    public void showChat(final HistoryEntryDTO historyEntry, boolean historyMode){
+    public void showChat(final HistoryEntryDTO historyEntry, boolean historyMode) {
         findViewById(R.id.deleteButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,6 +125,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.Pres
         args.putSerializable(MainContract.HISTORY_ENTRY_KEY, historyEntry);
         args.putBoolean(MainContract.HISTORY_MODE_KEY, historyMode);
         searchPeers = false;
+        onHistoryPage = false;
         Navigation.findNavController(this, R.id.navigation_controller).navigate(R.id.nav_chat, args);
     }
 
@@ -158,6 +162,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.Pres
 
         if (id == R.id.nav_history_item) {
             findViewById(R.id.deleteButton).setVisibility(View.INVISIBLE);
+            onHistoryPage = true;
             Navigation.findNavController(this, R.id.navigation_controller).popBackStack(R.id.nav_history, false);
         } else if (id == R.id.nav_peer_search_item) {
             if (!receiverRegistered) {
@@ -166,6 +171,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.Pres
             }
             Navigation.findNavController(this, R.id.navigation_controller).navigate(R.id.nav_peer_search, new Bundle());
             searchPeers = true;
+            onHistoryPage = false;
             controller.discoverPeers();
         }
 
@@ -175,6 +181,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.Pres
     }
 
     private void navOnHistoryFragment(int actionId){
+        onHistoryPage = true;
         findViewById(R.id.deleteButton).setVisibility(View.INVISIBLE);
         Navigation.findNavController(this, R.id.navigation_controller).navigate(actionId);
     }
@@ -195,8 +202,12 @@ public class MainActivity extends AppCompatActivity implements MainContract.Pres
                 controller.stopSearchForPeers();
                 searchPeers = false;
                 navOnHistoryFragment(R.id.action_nav_peer_search_to_nav_history);
-            } else {
+            } else if (!onHistoryPage) {
+//                todo zaza check back from chat
+                onHistoryPage = true;
                 findViewById(R.id.deleteButton).setVisibility(View.INVISIBLE);
+                Navigation.findNavController(this, R.id.navigation_controller).popBackStack(R.id.nav_history, false);
+            } else {
                 System.exit(0);
             }
         }
@@ -232,5 +243,10 @@ public class MainActivity extends AppCompatActivity implements MainContract.Pres
     @Override
     public String getStringFromResources(int id){
         return getString(id);
+    }
+
+    @Override
+    public Drawable getDrawableFromResources(int id) {
+        return getDrawable(id);
     }
 }

@@ -19,18 +19,24 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
+            android:background="@android:color/white"
+            app:titleTextColor="@android:color/black"
+            app:subtitleTextColor="@android:color/black"
+            app:titleTextAppearance="@style/toolbarTextSize"
+            app:subtitleTextAppearance="@style/subtitleTextSize"
             app:title="@string/app_name"
+            app:theme="@style/toolbarNavIconColor"
             app:subtitle="@string/app_name"
             app:popupTheme="@style/AppTheme.PopupOverlay" >
 
             <Button
                 android:id="@+id/deleteButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="invisible"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:layout_gravity="end"
-                android:background="@android:drawable/ic_menu_delete" />
+                android:layout_marginEnd="15dp"
+                android:background="@drawable/ic_delete_button"
+                android:visibility="invisible" />
         </android.support.v7.widget.Toolbar>
 
 
