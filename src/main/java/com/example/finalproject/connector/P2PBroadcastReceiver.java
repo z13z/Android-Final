@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.NetworkInfo;
+import android.net.wifi.WifiManager;
 import android.net.wifi.p2p.WifiP2pConfig;
 import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pDeviceList;
@@ -20,17 +21,27 @@ public class P2PBroadcastReceiver extends BroadcastReceiver {
 
     private MainContract.Controller controller;
 
-    public P2PBroadcastReceiver(WifiP2pManager manager, WifiP2pManager.Channel channel, MainContract.Controller controller) {
+    private WifiManager wifiManager;
+
+    private boolean discoverPeersCalled = false;
+
+
+    public P2PBroadcastReceiver(WifiP2pManager manager, WifiP2pManager.Channel channel, MainContract.Controller controller, WifiManager wifiManager) {
         super();
         this.manager = manager;
         this.channel = channel;
         this.controller = controller;
+        this.wifiManager = wifiManager;
     }
 
     public void discoverPeers() {
+        if (!wifiManager.isWifiEnabled()) {
+            wifiManager.setWifiEnabled(true);
+        }
         manager.discoverPeers(channel, new WifiP2pManager.ActionListener() {
             @Override
             public void onSuccess() {
+                discoverPeersCalled = true;
             }
 
             @Override
@@ -65,6 +76,9 @@ public class P2PBroadcastReceiver extends BroadcastReceiver {
         }
         switch (action) {
             case WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION:
+                if (!wifiManager.isWifiEnabled()) {
+                    wifiManager.setWifiEnabled(true);
+                }
                 break;
             case WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION:
                 peersChangedAction();
@@ -83,6 +97,7 @@ public class P2PBroadcastReceiver extends BroadcastReceiver {
             manager.requestConnectionInfo(channel, new WifiP2pManager.ConnectionInfoListener() {
                 @Override
                 public void onConnectionInfoAvailable(WifiP2pInfo info) {
+                    discoverPeersCalled = false;
                     if (info.groupFormed && info.isGroupOwner) {
                         controller.createServerSocket();
                     } else if (info.groupFormed) {

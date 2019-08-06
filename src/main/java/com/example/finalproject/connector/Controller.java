@@ -1,6 +1,7 @@
 package com.example.finalproject.connector;
 
 import android.content.IntentFilter;
+import android.net.wifi.WifiManager;
 import android.net.wifi.p2p.WifiP2pManager;
 
 import com.example.finalproject.MainContract;
@@ -26,13 +27,13 @@ public class Controller implements MainContract.Controller {
     private boolean searchForPeers;
 
 
-    public Controller(WifiP2pManager manager, WifiP2pManager.Channel channel, MainContract.Presenter presenter) {
+    public Controller(WifiP2pManager manager, WifiP2pManager.Channel channel, MainContract.Presenter presenter, WifiManager wifiManager) {
         this.presenter = presenter;
-        initBroadcastReceiver(manager, channel);
+        initBroadcastReceiver(manager, channel, wifiManager);
     }
 
-    private void initBroadcastReceiver(WifiP2pManager manager, WifiP2pManager.Channel channel) {
-        broadcastReceiver = new P2PBroadcastReceiver(manager, channel, this);
+    private void initBroadcastReceiver(WifiP2pManager manager, WifiP2pManager.Channel channel, WifiManager wifiManager) {
+        broadcastReceiver = new P2PBroadcastReceiver(manager, channel, this, wifiManager);
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION);
         intentFilter.addAction(WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION);
