@@ -20,7 +20,7 @@ public class HistoryRecycleViewAdapter extends RecyclerView.Adapter<HistoryEntry
 
     private MainContract.Presenter presenter;
 
-    public HistoryRecycleViewAdapter(List<HistoryEntryDTO> historyEntries, MainContract.Presenter presenter) {
+    HistoryRecycleViewAdapter(List<HistoryEntryDTO> historyEntries, MainContract.Presenter presenter) {
         this.historyEntries = historyEntries;
         this.presenter = presenter;
     }

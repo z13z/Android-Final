@@ -20,7 +20,7 @@ public class ChatRecycleViewAdapter extends RecyclerView.Adapter<MessageHolder> 
 
     private MainContract.Presenter presenter;
 
-    public ChatRecycleViewAdapter(List<MessageDTO> messages, MainContract.Presenter presenter) {
+    ChatRecycleViewAdapter(List<MessageDTO> messages, MainContract.Presenter presenter) {
         this.messages = messages;
         this.presenter = presenter;
     }
@@ -53,7 +53,7 @@ public class ChatRecycleViewAdapter extends RecyclerView.Adapter<MessageHolder> 
         return messages.size();
     }
 
-    public void addMessage(MessageDTO messageDTO) {
+    void addMessage(MessageDTO messageDTO) {
         messages.add(messageDTO);
         notifyDataSetChanged();
     }

@@ -9,7 +9,7 @@ import com.example.finalproject.MainContract;
 import com.example.finalproject.R;
 import com.example.finalproject.model.dtos.HistoryEntryDTO;
 
-public class HistoryEntryHolder extends RecyclerView.ViewHolder {
+class HistoryEntryHolder extends RecyclerView.ViewHolder {
 
     private HistoryEntryDTO historyEntry;
 
@@ -19,7 +19,7 @@ public class HistoryEntryHolder extends RecyclerView.ViewHolder {
 
     private TextView messagesCount;
 
-    public HistoryEntryHolder(@NonNull View itemView, final MainContract.Presenter presenter) {
+    HistoryEntryHolder(@NonNull View itemView, final MainContract.Presenter presenter) {
         super(itemView);
         phoneName = itemView.findViewById(R.id.phoneNameLabel);
         historyPeriod = itemView.findViewById(R.id.historyTimeLabel);
@@ -32,7 +32,7 @@ public class HistoryEntryHolder extends RecyclerView.ViewHolder {
         });
     }
 
-    public void setFields(HistoryEntryDTO historyEntry) {
+    void setFields(HistoryEntryDTO historyEntry) {
         this.historyEntry = historyEntry;
         phoneName.setText(historyEntry.getPhoneName());
         historyPeriod.setText(MainContract.DATE_FORMAT.format(historyEntry.getStartTime()));

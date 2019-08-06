@@ -45,7 +45,7 @@ public class Connector extends Thread {
     private ThreadPoolExecutor writersThreadPool = new ThreadPoolExecutor(1, 1, CONNECTION_TIMEOUT, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>());
 
     //null if serverSocket must be created
-    public Connector(String serverAddress, MainContract.Controller controller){
+    Connector(String serverAddress, MainContract.Controller controller){
         this.controller = controller;
         this.serverAddress = serverAddress;
     }
@@ -67,7 +67,7 @@ public class Connector extends Thread {
         }
     }
 
-    public void writeMessage(final String message) {
+    void writeMessage(final String message) {
         writersThreadPool.execute(new Runnable() {
             @Override
             public void run() {
@@ -77,7 +77,7 @@ public class Connector extends Thread {
         });
     }
 
-    public void closeConnection() {
+    void closeConnection() {
         try {
             writersThreadPool.awaitTermination(0, TimeUnit.MILLISECONDS);
         } catch (InterruptedException e) {
@@ -152,7 +152,6 @@ public class Connector extends Thread {
             socket.connect(new InetSocketAddress(serverAddress, CONNECTION_PORT), CONNECT_TRIES_INTERVAL);
         } catch (SocketTimeoutException e) {
             createClientSocket();
-//            todo zaza remove
             controller.showAlert("can't connect with server");
             return;
         }

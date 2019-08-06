@@ -8,7 +8,7 @@ import java.util.List;
 
 public class MessageHelper {
 
-    public static List<MessageDTO> getDtos(List<Message> dbMessages) {
+    static List<MessageDTO> getDtos(List<Message> dbMessages) {
         List<MessageDTO> resultMessageDtos=new ArrayList<>();
         if (dbMessages != null) {
             for (Message message : dbMessages) {

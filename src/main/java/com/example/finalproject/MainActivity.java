@@ -205,7 +205,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.Pres
                 searchPeers = false;
                 navOnHistoryFragment(R.id.action_nav_peer_search_to_nav_history);
             } else if (!onHistoryPage) {
-//                todo zaza check back from chat
                 onHistoryPage = true;
                 findViewById(R.id.deleteButton).setVisibility(View.INVISIBLE);
                 Navigation.findNavController(this, R.id.navigation_controller).popBackStack(R.id.nav_history, false);
