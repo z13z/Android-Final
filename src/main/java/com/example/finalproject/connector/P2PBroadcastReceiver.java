@@ -23,7 +23,7 @@ public class P2PBroadcastReceiver extends BroadcastReceiver {
 
     private WifiManager wifiManager;
 
-    private boolean discoverPeersCalled = false;
+    private boolean connectedWithGroup;
 
 
     public P2PBroadcastReceiver(WifiP2pManager manager, WifiP2pManager.Channel channel, MainContract.Controller controller, WifiManager wifiManager) {
@@ -41,7 +41,7 @@ public class P2PBroadcastReceiver extends BroadcastReceiver {
         manager.discoverPeers(channel, new WifiP2pManager.ActionListener() {
             @Override
             public void onSuccess() {
-                discoverPeersCalled = true;
+
             }
 
             @Override
@@ -97,14 +97,15 @@ public class P2PBroadcastReceiver extends BroadcastReceiver {
             manager.requestConnectionInfo(channel, new WifiP2pManager.ConnectionInfoListener() {
                 @Override
                 public void onConnectionInfoAvailable(WifiP2pInfo info) {
-                    discoverPeersCalled = false;
-                    if (info.groupFormed && info.isGroupOwner) {
-                        controller.createServerSocket();
-                    } else if (info.groupFormed) {
-                        controller.createClientSocket(info.groupOwnerAddress.getHostAddress());
-                    } else {
-                        controller.showAlert("requestConnection info didn't succeeded");
-                    }
+                        if (info.groupFormed && info.isGroupOwner) {
+                            connectedWithGroup =true;
+                            controller.createServerSocket();
+                        } else if (info.groupFormed) {
+                            connectedWithGroup =true;
+                            controller.createClientSocket(info.groupOwnerAddress.getHostAddress());
+                        } else {
+                            controller.showAlert("requestConnection info didn't succeeded");
+                        }
                 }
             });
         }
@@ -120,5 +121,22 @@ public class P2PBroadcastReceiver extends BroadcastReceiver {
                 }
             }
         });
+    }
+
+    public void clearConnectedGroup(){
+        if (connectedWithGroup) {
+            connectedWithGroup = false;
+            manager.removeGroup(channel, new WifiP2pManager.ActionListener() {
+                @Override
+                public void onSuccess() {
+
+                }
+
+                @Override
+                public void onFailure(int reason) {
+                    controller.showAlert("can't delete connection group");
+                }
+            });
+        }
     }
 }

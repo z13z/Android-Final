@@ -92,6 +92,7 @@ public class Controller implements MainContract.Controller {
     public void closeConnection() {
         if (connector != null) {
             connector.closeConnection();
+            broadcastReceiver.clearConnectedGroup();
         } else {
             presenter.chatFinished();
         }
