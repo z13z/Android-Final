@@ -9,17 +9,27 @@ ui პაკეტში არის ძირითადად 2 მნიშ
 და ბოლო ნაწილი კავშირის დახურვა, ეს პროცესი შეიძლება მოხდეს როგორც MainActivity-ზე back ღილაკის დაჭერისას (როცა ჩატის ფრაგმენტია გახსნილი) ასევე Connector-დან. როდესაც MainActivity-ზე ჩატი იხურება Controller-ში ხდება კავშირის დახურვის ბრძანების გამოძახება, როდესაც Controller იღებს ბრძანებას P2PBroadcastReceiver-ს ეუბნება რომ Connection დასახურია და ხდება wifidirect ჯგუფის წაშლა. ასევე Connector ნაკადი interrupt-დება და იხურება კავშირი. ამის შემდეგ მისდის MainActivity-ს შეტყობინება რომ ჩატი დაიხურა და ხდება ისტორიის გვერდის გახსნა. მეორე შემთხვევაში კავშირი იხურება იმ დროს როდესაც Connector ნაკადი input სტრიმის კითხვისას იგებს რომ სტრიმი დაიხურა ამ დროს პირდაპირ ხდება Controller-ის იმ მეთოდის გამოძახება რომელსაც MainActivity იძახებდა და პროცესი ერთი ერთში მეორდება Controller გადასცემს დახურვის ბრძანებას ისევ Connector-ს, P2PBroadcastReceiver-ს და წარმატების შემთხვევაში ხდება MainActivity-ზე გვერდის შეცვლა.
 
 გამოყენებული რესურსები:
+
 https://developer.android.com/guide/topics/ui/menus
+
 https://developer.android.com/guide/topics/connectivity/wifip2p
+
 https://developer.android.com/guide/navigation/navigation-ui
+
 https://developer.android.com/reference/android/support/constraint/ConstraintSet
+
 https://developer.android.com/guide/topics/connectivity/wifip2p
+
 https://developer.android.com/training/connect-devices-wirelessly/wifi-direct
 
 სურათები:
-https://www.flaticon.com/free-icon/delete_1214428
-https://www.flaticon.com/free-icon/delete_1214760
-https://www.flaticon.com/free-icon/chat_126501#term=chat&page=1&position=5
-https://www.flaticon.com/free-icon/exchange_834520
-https://www.flaticon.com/free-icon/right-arrow_137517
 
+https://www.flaticon.com/free-icon/delete_1214428
+
+https://www.flaticon.com/free-icon/delete_1214760
+
+https://www.flaticon.com/free-icon/chat_126501#term=chat&page=1&position=5
+
+https://www.flaticon.com/free-icon/exchange_834520
+
+https://www.flaticon.com/free-icon/right-arrow_137517
